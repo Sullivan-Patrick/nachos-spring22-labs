@@ -22,7 +22,11 @@ void ELEVATOR::start() {
         //      1. Signal persons inside elevator to get off (leaving->broadcast(elevatorLock))
         //      2. Signal persons atFloor to get in, one at a time, checking occupancyLimit each time
         //      2.5 Release elevatorLock
-        //      3. Go to next floor
+        //      3. Spin for some time
+                for(int j =0 ; j< 1000000; j++) {
+                    currentThread->Yield();
+                }
+        //      4. Go to next floor
         //  printf("Elevator arrives on floor %d", )
     }
 }
@@ -39,6 +43,7 @@ void ElevatorThread(int numFloors) {
 }
 
 ELEVATOR::ELEVATOR(int numFloors) {
+    currentFloor = 1;
     entering = new Condition*[numFloors];
     // Initialize entering
     for (int i = 0; i < numFloors; i++) {
