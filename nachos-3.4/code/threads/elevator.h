@@ -7,22 +7,30 @@
 void Elevator(int numFloors);
 void ArrivingGoingFromTo(int atFloor, int toFloor);
 
-
-class Elevator {
-
-public:
-    Elevator(int numFloors);
-    ~Elevator();
-
-private:
-    int currentFloor;
-
-};
-
 typedef struct Person {
     int id;
     int atFloor;
     int toFloor;
 } Person;
+
+
+class ELEVATOR {
+
+public:
+    ELEVATOR(int numFloors);
+    ~ELEVATOR();
+    void hailElevator(Person *p);
+    void start();
+
+private:
+    int currentFloor;
+    Condition **entering;
+    Condition **leaving;
+    int *personsWaiting;
+    int occupancy;
+    int maxOccupancy;
+    Lock *elevatorLock;
+
+};
 
 #endif
