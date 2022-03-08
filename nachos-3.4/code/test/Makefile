@@ -48,8 +48,9 @@ halt: halt.o start.o
 	$(LD) $(LDFLAGS) start.o halt.o -o halt.coff
 	../bin/coff2noff halt.coff halt
 
- exit.o: exit.c
-	$(CC) $(CFLAGS) -c exit.c exit: exit.o start.o
+exit.o: exit.c
+	$(CC) $(CFLAGS) -c exit.c
+exit: exit.o start.o
 	$(LD) $(LDFLAGS) start.o exit.o -o exit.coff
 	../bin/coff2noff exit.coff exit
 
