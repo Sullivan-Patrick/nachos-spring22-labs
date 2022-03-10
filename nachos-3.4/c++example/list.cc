@@ -1,13 +1,13 @@
-// list.cc 
-//     	Routines to manage a singly-linked list of integers. 
+// list.cc
+//     	Routines to manage a singly-linked list of integers.
 //
 // 	A "ListElement" is allocated for each item to be put on the
 //	list; it is de-allocated when the item is removed. This means
 //      we don't need to keep a "next" pointer in every object we
 //      want to put on a list.
-// 
+//
 // Copyright (c) 1992,1993,1995 The Regents of the University of California.
-// All rights reserved.  See copyright.h for copyright notice and limitation 
+// All rights reserved.  See copyright.h for copyright notice and limitation
 // of liability and disclaimer of warranty provisions.
 
 
@@ -36,7 +36,7 @@ class ListElement {
      ListElement(int value) { item = value; next = NULL;};
      					// constructor for list element
 
-     ListElement *next;		// next element on list, 
+     ListElement *next;		// next element on list,
 				// NULL if this is the last
      int item; 	    	        // value of this element
 };
@@ -49,20 +49,20 @@ class ListElement {
 //	Elements can now be added to the list.
 //----------------------------------------------------------------------
 
-List::List() { 
+List::List() {
 
-    first = last = NULL; 
+    first = last = NULL;
 }
 
 
 //----------------------------------------------------------------------
 // List::~List
-//	Prepare a list for deallocation.  If the list still contains any 
+//	Prepare a list for deallocation.  If the list still contains any
 //	ListElements, de-allocate them.
 //----------------------------------------------------------------------
 
-List::~List() { 
-   
+List::~List() {
+
     while (!Empty())
 	(void) Remove();	 // delete all the list elements
 }
@@ -71,7 +71,7 @@ List::~List() {
 //----------------------------------------------------------------------
 // List::Prepend
 //      Put an integer on the front of the list.
-//      
+//
 //	Allocate a ListElement to keep track of the integer.
 //      If the list is empty, then this will be the only element.
 //	Otherwise, put it at the beginning.
@@ -96,7 +96,7 @@ List::Prepend(int value) {
 // List::Remove
 //      Remove the first integer from the front of the list.
 //	Error if nothing on the list.
-// 
+//
 // Returns:
 //	The removed integer.
 //----------------------------------------------------------------------
@@ -111,7 +111,7 @@ List::Remove() {
     element = first;
     value = first->item;
 
-    if (first == last) {	// list had one item, now has none 
+    if (first == last) {	// list had one item, now has none
         first = NULL;
 	last = NULL;
     } else {
@@ -122,12 +122,69 @@ List::Remove() {
     return value;
 }
 
+
+//----------------------------------------------------------------------
+// List::RemoveItem
+//      Remove matching item if it exists
+//
+// Returns:
+//	0 if successful; -1 if not
+//----------------------------------------------------------------------
+
+int
+List::RemoveItem(void* item) {
+    ListElement *element = first;
+    ListElement *prev = NULL;
+
+    if(IsEmpty()) return -1;
+
+    // Handle single item list
+    if (first == last) {
+        // single item in list
+        if (first->item == item) {
+            // item found -- list is now empty
+            first = last = NULL;
+            delete element;
+            return 0;
+        } else {
+        // Element not found
+        return -1;
+        }
+    }
+
+    // Item has more than one item
+    element = first;
+    prev = NULL;
+
+    do {
+        if (element->item == item) {
+            // Found item
+            if (element == last) {
+                // Deleting last item
+                prev->next = NULL;
+                last = prev;
+            } else {
+                // Intermediate item
+                prev->next = element->next;
+            }
+            delete element;
+            return 0;
+        }
+        element = element->next;
+    } while (element != NULL);
+
+    // Element not found
+    return -1;
+}
+
+
+
 //----------------------------------------------------------------------
 // List::Empty
 //      Returns TRUE if the list is empty (has no items).
 //----------------------------------------------------------------------
 
 bool
-List::Empty() { 
+List::Empty() {
     return (first == NULL);
 }
