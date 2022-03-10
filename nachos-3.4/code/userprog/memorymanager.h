@@ -1,4 +1,4 @@
-#ifdef MEMORY_H
+#ifndef MEMORY_H
 #define MEMORY_H
 
 #include "bitmap.h"
