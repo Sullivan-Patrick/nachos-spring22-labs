@@ -35,7 +35,7 @@ int MemoryManager::DeallocatePage(int which) {
 }
 
 
-unsigned int MemoryManager::GetFreePagecount() {
+unsigned int MemoryManager::GetFreePageCount() {
 
     return bitmap->NumClear();
 
