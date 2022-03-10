@@ -20,15 +20,15 @@ MemoryManager::~MemoryManager() {
 
 int MemoryManager::AllocatePage() {
 
-    return bitmap.Find();
+    return bitmap->Find();
 
 }
 
 int MemoryManager::DeallocatePage(int which) {
 
-    if(bitmap.Test(which) == false) return -1;
+    if(bitmap->Test(which) == false) return -1;
     else {
-        bitmap.Clear(which);
+        bitmap->Clear(which);
         return 0;
     }
 
@@ -37,7 +37,7 @@ int MemoryManager::DeallocatePage(int which) {
 
 unsigned int MemoryManager::GetFreePagecount() {
 
-    return bitmap.NumClear();
+    return bitmap->NumClear();
 
 }
 
