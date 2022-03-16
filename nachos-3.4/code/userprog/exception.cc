@@ -60,6 +60,70 @@ void doExit(int status) {
     currentThread->Finish();
 }
 
+void incrementPC() {
+    int oldPCReg = machine->ReadRegister(PCReg);
+
+    machine->WriteRegister(PrevPCReg, oldPCReg);
+    machine->WriteRegister(PCReg, oldPCReg + 4);
+    machine->WriteRegister(NextPCReg, oldPCReg + 8);
+}
+
+
+void childFunction(int pid) {
+
+    // 1. Restore the state of registers
+    // currentThread->RestoreUserState()
+
+    // 2. Restore the page table for child
+    // currentThread->space->RestoreState()
+
+    // PCReg == machine->ReadRegister(PCReg)
+    // print message for child creation (pid,  PCReg, currentThread->space->GetNumPages())
+
+    // machine->Run();
+
+}
+
+int doFork(int functionAddr) {
+
+    // 1. Check if sufficient memory exists to create new process
+    // currentThread->space->GetNumPages() <= mm->GetFreePageCount()
+    // if check fails, return -1
+
+    // 2. SaveUserState for the parent thread
+    // currentThread->SaveUserState();
+
+    // 3. Create a new address space for child by copying parent address space
+    // Parent: currentThread->space
+    // childAddrSpace: new AddrSpace(currentThread->space)
+
+    // 4. Create a new thread for the child and set its addrSpace
+    // childThread = new Thread("childThread")
+    // child->space = childAddSpace;
+
+    // 5. Create a PCB for the child and connect it all up
+    // pcb: pcbManager->AllocatePCB();
+    // pcb->thread = childThread
+    // set parent for child pcb
+    // add child for parent pcb
+
+    // 6. Set up machine registers for child and save it to child thread
+    // PCReg: functionAddr
+    // PrevPCReg: functionAddr-4
+    // NextPCReg: functionAddr+4
+    // childThread->SaveUserState();
+
+    // 7. Call thread->fork on Child
+    // childThread->Fork(childFunction, pcb->pid)
+
+    // 8. Restore register state of parent user-level process
+    // currentThread->RestoreUserState()
+
+    // 9. return pcb->pid;
+
+}
+
+
 void
 ExceptionHandler(ExceptionType which)
 {
@@ -71,6 +135,10 @@ ExceptionHandler(ExceptionType which)
     } else  if ((which == SyscallException) && (type == SC_Exit)) {
         // Implement Exit system call
         doExit(machine->ReadRegister(4));
+    } else if ((which == SyscallException) && (type == SC_Fork)) {
+        int ret = doFork(machine->ReadRegister(4));
+        machine->WriteRegister(2, ret);
+        incrementPC();
     } else {
 	printf("Unexpected user mode exception %d %d\n", which, type);
 	ASSERT(FALSE);
