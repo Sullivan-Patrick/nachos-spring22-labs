@@ -64,12 +64,18 @@ AddrSpace::AddrSpace(OpenFile *executable)
 {
     NoffHeader noffH;
     unsigned int i, size;
+    valid = true;
 
     executable->ReadAt((char *)&noffH, sizeof(noffH), 0);
     if ((noffH.noffMagic != NOFFMAGIC) &&
 		(WordToHost(noffH.noffMagic) == NOFFMAGIC))
     	SwapHeader(&noffH);
-    ASSERT(noffH.noffMagic == NOFFMAGIC);
+
+
+    if(noffH.noffMagic != NOFFMAGIC) {
+        valid = false;
+        return;
+    }
 
 // how big is address space?
     size = noffH.code.size + noffH.initData.size + noffH.uninitData.size
@@ -78,10 +84,10 @@ AddrSpace::AddrSpace(OpenFile *executable)
     numPages = divRoundUp(size, PageSize);
     size = numPages * PageSize;
 
-    ASSERT(numPages <= NumPhysPages);		// check we're not trying
-						// to run anything too big --
-						// at least until we have
-						// virtual memory
+    if(numPages > mm->GetFreePageCount()) {
+        valid = false;
+        return;
+    }
 
     DEBUG('a', "Initializing address space, num pages %d, size %d\n",
 					numPages, size);
@@ -135,6 +141,8 @@ unsigned int AddrSpace::GetNumPages() {
 
 AddrSpace::AddrSpace(AddrSpace* space) {
 
+    valid = true;
+
     // 1. Find how big the source address space is
     unsigned int n = space->GetNumPages();
 
@@ -142,7 +150,8 @@ AddrSpace::AddrSpace(AddrSpace* space) {
     mmLock->Acquire();
 
     // 2. Check if there is enough free memory to make the copy. IF not, fail
-    ASSERT(n <= mm->GetFreePageCount());
+    // ASSERT(n <= mm->GetFreePageCount());
+    // Change this to informiing caller that constructor failed using valid=false;
 
     // 3. Create a new pagetable of same size as source addr space
     pageTable = new TranslationEntry[n];

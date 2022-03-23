@@ -123,6 +123,73 @@ int doFork(int functionAddr) {
 
 }
 
+int doExec(char* filename) {
+
+    // Use progtest.cc:StartProcess() as a guide
+
+    // 1. Open the file and check validity
+    // OpenFile *executable = fileSystem->Open(filename);
+    // AddrSpace *space;
+
+    // if (executable == NULL) {
+    //     printf("Unable to open file %s\n", filename);
+    //     return -1;
+    // }
+
+    // 2. Create new address space
+    // space = new AddrSpace(executable);
+
+    // 3. Check if Addrspace creation was successful
+    // if(space->valid != true) {
+    // printf("Could not create AddrSpace\n");
+    //     return -1;
+    // }
+
+    // Steps 4 and 5 may not be necessary!!
+
+    // 4. Create a new PCB for the new addrspace
+    // ?. Can you reuse existing pcb?
+    // PCB* pcb = pcbManager->AllocatePCB();
+    // Initialize parent
+    // pcb->parent = currentThread->space->pcb->parent;
+    // space->pcb = pcb;
+
+    // 5. Set the thread for the new pcb
+    // pcb->thread = currentThread;
+
+    // 6. Delete current address space
+    // delete currentThread->space;
+
+    // 7. SEt the addrspace for currentThread
+    // currentThread->space = space;
+
+    // 8.     delete executable;			// close file
+
+    // 9. Initialize registers for new addrspace
+    //  space->InitRegisters();		// set the initial register values
+
+    // 10. Initialize the page table
+    // space->RestoreState();		// load page table register
+
+    // 11. Run the machine now that all is set up
+    // machine->Run();			// jump to the user progam
+    // ASSERT(FALSE); // Execution nevere reaches here
+
+    return 0;
+}
+
+
+
+char* translate(int virtAddr) {
+
+    unsigned int pageNumber = virtAddr / 128;
+    unsigned int pageOffset = virtAddr % 128;
+    unsigned int frameNumber = machine->pageTable[pageNumber].physicalPage;
+    unsigned int physicalAddr = frameNumber*128 + pageOffset;
+    char* filename = &(machine->mainMemory[physicalAddr]);
+
+    return filename;
+}
 
 void
 ExceptionHandler(ExceptionType which)
@@ -137,6 +204,12 @@ ExceptionHandler(ExceptionType which)
         doExit(machine->ReadRegister(4));
     } else if ((which == SyscallException) && (type == SC_Fork)) {
         int ret = doFork(machine->ReadRegister(4));
+        machine->WriteRegister(2, ret);
+        incrementPC();
+    } else if ((which == SyscallException) && (type == SC_Exec)) {
+        int virtAddr = machine->ReadRegister(4);
+        char* fileName = translate(virtAddr);
+        int ret = doExec(filename);
         machine->WriteRegister(2, ret);
         incrementPC();
     } else {

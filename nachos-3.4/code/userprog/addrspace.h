@@ -36,6 +36,7 @@ class AddrSpace {
     unsigned int GetNumPages(); // get size of addr space
     TranslationEntry* GetPageTable(); // return pageTable
     PCB* pcb; // the process that owns this addresspace
+    bool valid; // is AddrSpace valid
 
 
   private:
