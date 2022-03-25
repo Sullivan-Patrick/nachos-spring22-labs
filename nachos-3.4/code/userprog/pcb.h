@@ -1,6 +1,8 @@
 #ifndef PCB_H
 #define PCB_H
 
+#include "list.h"
+#include <../threads/thread.h>
 
 class PCB {
 

@@ -33,6 +33,7 @@ Machine *machine;	// user program memory and registers
 MemoryManager* mm;
 Lock* mmLock;
 PCBManager* pcbManager;
+Lock* pcbManagerLock = new Lock("pcbMLock");
 #endif
 
 #ifdef NETWORK

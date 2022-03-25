@@ -14,7 +14,7 @@ class PCBManager {
         int DeallocatePCB(PCB* pcb);
 
     private:
-        Bitmap* bitmap;
+        BitMap* bitmap;
         PCB** pcbs;
         // Need a lock here
         // Lock* pcbManagerLock;

@@ -24,6 +24,7 @@
 #include "copyright.h"
 #include "system.h"
 #include "syscall.h"
+#include "machine.h"
 
 //----------------------------------------------------------------------
 // ExceptionHandler
@@ -209,6 +210,10 @@ int doJoin(int pid) {
 
     // 5. return status;
 
+}
+
+void doYield() {
+    currentThread->Yield();
 }
 
 
