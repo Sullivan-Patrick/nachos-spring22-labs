@@ -3,6 +3,8 @@
 
 #include "list.h"
 
+class Thread;
+
 class PCB {
 
     public:
