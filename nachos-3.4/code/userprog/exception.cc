@@ -243,7 +243,7 @@ ExceptionHandler(ExceptionType which)
     } else if ((which == SyscallException) && (type == SC_Exec)) {
         int virtAddr = machine->ReadRegister(4);
         char* fileName = translate(virtAddr);
-        int ret = doExec(filename);
+        int ret = doExec(fileName);
         machine->WriteRegister(2, ret);
         incrementPC();
     } else if ((which == SyscallException) && (type == SC_Join)) {
