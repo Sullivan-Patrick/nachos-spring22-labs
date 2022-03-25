@@ -6,6 +6,9 @@ PCBManager::PCBManager(int maxProcesses) {
     bitmap = new Bitmap(maxProcesses);
     pcbs = new PCB*[maxProcesses];
 
+    for(int i = 0; i < maxProcesses; i++) {
+        pcbs[i] = NULL;
+    }
 
 }
 
@@ -46,4 +49,10 @@ int PCBManager::DeallocatePCB(PCB* pcb) {
 
     delete pcbs[pcb->pid];
 
+    pcbs[pcb->pid] = NULL;
+
+}
+
+PCB* PCBManager::GetPCB(int pid) {
+    return pcbs[pid];
 }

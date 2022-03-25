@@ -58,6 +58,17 @@ void doExit(int status) {
 
     delete currentThread->space;
     currentThread->Finish();
+    currentThread->space->pcb->exitStatus = status;
+
+    // Manage PCB memory As a parent process
+    PCB* pcb = currentThread->space->pcb;
+
+    // Delete exited children and set parent null for non-exited ones
+    pcb->DeleteExitedChildrenSetParentNull();
+
+    // Manage PCB memory As a child process
+    if(pcb->parent == NULL) delete pcb;
+
 }
 
 void incrementPC() {
@@ -179,6 +190,29 @@ int doExec(char* filename) {
 }
 
 
+int doJoin(int pid) {
+
+    // 1. Check if this is a valid pid and return -1 if not
+    // PCB* joinPCB = pcbManager->GetPCB(pid);
+    // if (pcb == NULL) return -1;
+
+    // 2. Check if pid is a child of current process
+    // PCB* pcb = currentThread->space->pcb;
+    // if (pcb != joinPCB->parent) return -1;
+
+    // 3. Yield until joinPCB has not exited
+    // while(!joinPCB->hasExited) currentThread->Yield();
+
+    // 4. Store status and delete joinPCB
+    // int status = joinPCB->exitStatus;
+    // delete joinPCB;
+
+    // 5. return status;
+
+}
+
+
+
 
 char* translate(int virtAddr) {
 
@@ -212,8 +246,13 @@ ExceptionHandler(ExceptionType which)
         int ret = doExec(filename);
         machine->WriteRegister(2, ret);
         incrementPC();
+    } else if ((which == SyscallException) && (type == SC_Join)) {
+        int ret = doJoin(machine->ReadRegister(4));
+        machine->WriteRegister(2, ret);
+        incrementPC();
     } else {
 	printf("Unexpected user mode exception %d %d\n", which, type);
 	ASSERT(FALSE);
     }
 }
+
