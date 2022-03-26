@@ -1,4 +1,4 @@
-// list.cc 
+// list.cc
 //
 //     	Routines to manage a singly-linked list of "things".
 //
@@ -6,13 +6,13 @@
 //	list; it is de-allocated when the item is removed. This means
 //      we don't need to keep a "next" pointer in every object we
 //      want to put on a list.
-// 
+//
 //     	NOTE: Mutual exclusion must be provided by the caller.
-//  	If you want a synchronized list, you must use the routines 
+//  	If you want a synchronized list, you must use the routines
 //	in synchlist.cc.
 //
 // Copyright (c) 1992-1993 The Regents of the University of California.
-// All rights reserved.  See copyright.h for copyright notice and limitation 
+// All rights reserved.  See copyright.h for copyright notice and limitation
 // of liability and disclaimer of warranty provisions.
 
 #include "copyright.h"
@@ -31,7 +31,7 @@ ListElement::ListElement(void *itemPtr, int sortKey)
 {
      item = itemPtr;
      key = sortKey;
-     next = NULL;	// assume we'll put it at the end of the list 
+     next = NULL;	// assume we'll put it at the end of the list
 }
 
 //----------------------------------------------------------------------
@@ -41,13 +41,13 @@ ListElement::ListElement(void *itemPtr, int sortKey)
 //----------------------------------------------------------------------
 
 List::List()
-{ 
-    first = last = NULL; 
+{
+    first = last = NULL;
 }
 
 //----------------------------------------------------------------------
 // List::~List
-//	Prepare a list for deallocation.  If the list still contains any 
+//	Prepare a list for deallocation.  If the list still contains any
 //	ListElements, de-allocate them.  However, note that we do *not*
 //	de-allocate the "items" on the list -- this module allocates
 //	and de-allocates the ListElements to keep track of each item,
@@ -56,7 +56,7 @@ List::List()
 //----------------------------------------------------------------------
 
 List::~List()
-{ 
+{
     while (Remove() != NULL)
 	;	 // delete all the list elements
 }
@@ -64,12 +64,12 @@ List::~List()
 //----------------------------------------------------------------------
 // List::Append
 //      Append an "item" to the end of the list.
-//      
+//
 //	Allocate a ListElement to keep track of the item.
 //      If the list is empty, then this will be the only element.
 //	Otherwise, put it at the end.
 //
-//	"item" is the thing to put on the list, it can be a pointer to 
+//	"item" is the thing to put on the list, it can be a pointer to
 //		anything.
 //----------------------------------------------------------------------
 
@@ -90,12 +90,12 @@ List::Append(void *item)
 //----------------------------------------------------------------------
 // List::Prepend
 //      Put an "item" on the front of the list.
-//      
+//
 //	Allocate a ListElement to keep track of the item.
 //      If the list is empty, then this will be the only element.
 //	Otherwise, put it at the beginning.
 //
-//	"item" is the thing to put on the list, it can be a pointer to 
+//	"item" is the thing to put on the list, it can be a pointer to
 //		anything.
 //----------------------------------------------------------------------
 
@@ -116,7 +116,7 @@ List::Prepend(void *item)
 //----------------------------------------------------------------------
 // List::Remove
 //      Remove the first "item" from the front of the list.
-// 
+//
 // Returns:
 //	Pointer to removed item, NULL if nothing on the list.
 //----------------------------------------------------------------------
@@ -127,9 +127,67 @@ List::Remove()
     return SortedRemove(NULL);  // Same as SortedRemove, but ignore the key
 }
 
+
+//----------------------------------------------------------------------
+// List::RemoveItem
+//      Remove matching item if it exists
+//
+// Returns:
+//	0 if successful; -1 if not
+//----------------------------------------------------------------------
+
+
+int
+List::RemoveItem(void* item) {
+    ListElement *element = first;
+    ListElement *prev = NULL;
+
+    if(IsEmpty()) return -1;
+
+    // Handle single item list
+    if (first == last) {
+        // single item in list
+        if (first->item == item) {
+            // item found -- list is now empty
+            first = last = NULL;
+            delete element;
+            return 0;
+        } else {
+        // Element not found
+        return -1;
+        }
+    }
+
+    // Item has more than one item
+    element = first;
+    prev = NULL;
+
+    do {
+        if (element->item == item) {
+            // Found item
+            if (element == last) {
+                // Deleting last item
+                prev->next = NULL;
+                last = prev;
+            } else {
+                // Intermediate item
+                prev->next = element->next;
+            }
+            delete element;
+            return 0;
+        }
+        element = element->next;
+    } while (element != NULL);
+
+    // Element not found
+    return -1;
+}
+
+
+
 //----------------------------------------------------------------------
 // List::Mapcar
-//	Apply a function to each item on the list, by walking through  
+//	Apply a function to each item on the list, by walking through
 //	the list, one element at a time.
 //
 //	Unlike LISP, this mapcar does not return anything!
@@ -152,25 +210,25 @@ List::Mapcar(VoidFunctionPtr func)
 //----------------------------------------------------------------------
 
 bool
-List::IsEmpty() 
-{ 
+List::IsEmpty()
+{
     if (first == NULL)
         return TRUE;
     else
-	return FALSE; 
+	return FALSE;
 }
 
 //----------------------------------------------------------------------
 // List::SortedInsert
 //      Insert an "item" into a list, so that the list elements are
 //	sorted in increasing order by "sortKey".
-//      
+//
 //	Allocate a ListElement to keep track of the item.
 //      If the list is empty, then this will be the only element.
 //	Otherwise, walk through the list, one element at a time,
 //	to find where the new item should be placed.
 //
-//	"item" is the thing to put on the list, it can be a pointer to 
+//	"item" is the thing to put on the list, it can be a pointer to
 //		anything.
 //	"sortKey" is the priority of the item.
 //----------------------------------------------------------------------
@@ -184,7 +242,7 @@ List::SortedInsert(void *item, int sortKey)
     if (IsEmpty()) {	// if list is empty, put
         first = element;
         last = element;
-    } else if (sortKey < first->key) {	
+    } else if (sortKey < first->key) {
 		// item goes on front of list
 	element->next = first;
 	first = element;
@@ -204,13 +262,13 @@ List::SortedInsert(void *item, int sortKey)
 //----------------------------------------------------------------------
 // List::SortedRemove
 //      Remove the first "item" from the front of a sorted list.
-// 
+//
 // Returns:
 //	Pointer to removed item, NULL if nothing on the list.
 //	Sets *keyPtr to the priority value of the removed item
 //	(this is needed by interrupt.cc, for instance).
 //
-//	"keyPtr" is a pointer to the location in which to store the 
+//	"keyPtr" is a pointer to the location in which to store the
 //		priority of the removed item.
 //----------------------------------------------------------------------
 
@@ -220,11 +278,11 @@ List::SortedRemove(int *keyPtr)
     ListElement *element = first;
     void *thing;
 
-    if (IsEmpty()) 
+    if (IsEmpty())
 	return NULL;
 
     thing = first->item;
-    if (first == last) {	// list had one item, now has none 
+    if (first == last) {	// list had one item, now has none
         first = NULL;
 	last = NULL;
     } else {

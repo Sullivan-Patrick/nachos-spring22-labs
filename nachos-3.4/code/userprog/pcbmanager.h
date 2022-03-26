@@ -12,6 +12,7 @@ class PCBManager {
 
         PCB* AllocatePCB();
         int DeallocatePCB(PCB* pcb);
+        PCB* GetPCB(int pid);
 
     private:
         BitMap* bitmap;

@@ -2,7 +2,8 @@
 #define PCB_H
 
 #include "list.h"
-#include <../threads/thread.h>
+
+class Thread;
 
 class PCB {
 
@@ -15,11 +16,12 @@ class PCB {
         Thread* thread;
         int exitStatus;
 
-    private:
         void AddChild(PCB* pcb);
         int RemoveChild(PCB* pcb);
         bool HasExited();
         void DeleteExitedChildrenSetParentNull();
+
+    private:
 
 };
 
