@@ -18,7 +18,6 @@
 //     Halt();
 //     /* not reached */
 // }
-#include "syscall.h"
 
 int global_cnt=0;
 
