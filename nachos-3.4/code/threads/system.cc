@@ -7,6 +7,7 @@
 
 #include "copyright.h"
 #include "system.h"
+#include "../userprog/memorymanager.h"
 
 // This defines *all* of the global data structures used by Nachos.
 // These are all initialized and de-allocated by this file.
@@ -30,9 +31,9 @@ SynchDisk   *synchDisk;
 #ifdef USER_PROGRAM	// requires either FILESYS or FILESYS_STUB
 #define MAX_PROCESSES 5
 Machine *machine;	// user program memory and registers
-MemoryManager* mm;
-Lock* mmLock;
-PCBManager* pcbManager;
+MemoryManager* mm = new MemoryManager();
+Lock* mmLock new Lock("mmLock");
+PCBManager* pcbManager = new PCBManager();
 Lock* pcbManagerLock = new Lock("pcbMLock");
 #endif
 
