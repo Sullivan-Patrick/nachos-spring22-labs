@@ -25,8 +25,8 @@ PCBManager::~PCBManager() {
 
 PCB* PCBManager::AllocatePCB() {
 
-    // Aquire pcbManagerLock
-    pcbManagerLock->Aquire();
+    // Acquire pcbManagerLock
+    pcbManagerLock->Acquire();
 
     int pid = bitmap->Find();
 
@@ -54,8 +54,8 @@ int PCBManager::DeallocatePCB(PCB* pcb) {
         return -1;
     }
 
-    // Aquire pcbManagerLock
-    pcbManagerLock->Aquire();
+    // Acquire pcbManagerLock
+    pcbManagerLock->Acquire();
 
     bitmap->Clear(pcb->pid);
 
