@@ -32,8 +32,8 @@ SynchDisk   *synchDisk;
 #define MAX_PROCESSES 5
 Machine *machine;	// user program memory and registers
 MemoryManager* mm = new MemoryManager();
-Lock* mmLock new Lock("mmLock");
-PCBManager* pcbManager = new PCBManager();
+Lock* mmLock = new Lock("mmLock");
+PCBManager* pcbManager = new PCBManager(NumPhysPages);
 Lock* pcbManagerLock = new Lock("pcbMLock");
 #endif
 
