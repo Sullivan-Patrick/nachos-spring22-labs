@@ -80,9 +80,8 @@ class Lock {
   private:
     const char* name;				// for debugging
     // plus some other stuff you'll need to define
-
-    List *queue;       // threads waiting on lock to become free
-    bool free; // keeps track of hte state of the lock
+    int isLocked;
+    List *queue;       // threads waiting in P() for the value to be > 0
 };
 
 // The following class defines a "condition variable".  A condition
@@ -134,8 +133,7 @@ class Condition {
 
   private:
     const char* name;
+    List *queue;
     // plus some other stuff you'll need to define
-    List *queue;       // threads waiting on the condition variable
-
 };
 #endif // SYNCH_H
