@@ -54,6 +54,12 @@ exit: exit.o start.o
 	$(LD) $(LDFLAGS) start.o exit.o -o exit.coff
 	../bin/coff2noff exit.coff exit
 
+fork.o: fork.c
+	$(CC) $(CFLAGS) -c fork.c
+fork: fork.o start.o
+	$(LD) $(LDFLAGS) start.o fork.o -o fork.coff
+	../bin/coff2noff fork.coff fork
+
 shell.o: shell.c
 	$(CC) $(CFLAGS) -c shell.c
 shell: shell.o start.o
