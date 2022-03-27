@@ -273,7 +273,6 @@ ExceptionHandler(ExceptionType which)
         DEBUG('a', "Shutdown, initiated by user program.\n");
         interrupt->Halt();
     } else  if ((which == SyscallException) && (type == SC_Exit)) {
-        printf("System Call: 99 invoked [exit]");
         // Implement Exit system call
         doExit(machine->ReadRegister(4));
     } else if ((which == SyscallException) && (type == SC_Fork)) {
