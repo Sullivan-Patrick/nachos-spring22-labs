@@ -150,10 +150,12 @@ int doFork(int functionAddr) {
 
     // 7. Call thread->fork on Child
     // childThread->Fork(childFunction, pcb->pid)
+    printf("Splitting currentThread and childThread");
     childThread->Fork(childFunction, childPCB->pid);
 
     // 8. Restore register state of parent user-level process
     // currentThread->RestoreUserState()
+    printf("Restore old state after childThread completion");
     currentThread->RestoreUserState();
 
     // 9. return pcb->pid;
@@ -265,19 +267,23 @@ ExceptionHandler(ExceptionType which)
 	DEBUG('a', "Shutdown, initiated by user program.\n");
    	interrupt->Halt();
     } else  if ((which == SyscallException) && (type == SC_Exit)) {
+        printf("System Call: %d invoked [exit]", currentThread->space->pcb->pid);
         // Implement Exit system call
         doExit(machine->ReadRegister(4));
     } else if ((which == SyscallException) && (type == SC_Fork)) {
+        printf("System Call: %d invoked [fork]", currentThread->space->pcb->pid);
         int ret = doFork(machine->ReadRegister(4));
         machine->WriteRegister(2, ret);
         incrementPC();
     } else if ((which == SyscallException) && (type == SC_Exec)) {
+        printf("System Call: %d invoked [exec]", currentThread->space->pcb->pid);
         int virtAddr = machine->ReadRegister(4);
         char* fileName = translate(virtAddr);
         int ret = doExec(fileName);
         machine->WriteRegister(2, ret);
         incrementPC();
     } else if ((which == SyscallException) && (type == SC_Join)) {
+        printf("System Call: %d invoked [join]", currentThread->space->pcb->pid);
         int ret = doJoin(machine->ReadRegister(4));
         machine->WriteRegister(2, ret);
         incrementPC();
