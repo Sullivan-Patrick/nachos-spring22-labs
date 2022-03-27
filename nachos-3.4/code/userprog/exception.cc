@@ -135,7 +135,7 @@ int doFork(int functionAddr) {
 }
 
 int doExec(char* filename) {
-    printf("inside fork");
+    printf("inside fork \n");
     // Use progtest.cc:StartProcess() as a guide
 
     // 1. Open the file and check validity
@@ -212,7 +212,7 @@ int doJoin(int pid) {
 }
 
 void doYield() {
-    printf("Inside Yield");
+    printf("Inside Yield \n");
 }
 
 
