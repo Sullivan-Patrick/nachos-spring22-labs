@@ -273,7 +273,7 @@ ExceptionHandler(ExceptionType which)
         // Implement Exit system call
         doExit(machine->ReadRegister(4));
     } else if ((which == SyscallException) && (type == SC_Fork)) {
-        printf("System Call: %d invoked [fork]", currentThread->space->pcb->pid);
+        printf("System Call: 99 invoked [fork]");
         int ret = doFork(machine->ReadRegister(4));
         machine->WriteRegister(2, ret);
         incrementPC();
