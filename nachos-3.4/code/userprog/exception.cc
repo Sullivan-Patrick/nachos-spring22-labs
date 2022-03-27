@@ -266,10 +266,10 @@ ExceptionHandler(ExceptionType which)
     int type = machine->ReadRegister(2);
 
     if ((which == SyscallException) && (type == SC_Halt)) {
-	DEBUG('a', "Shutdown, initiated by user program.\n");
-   	interrupt->Halt();
+        DEBUG('a', "Shutdown, initiated by user program.\n");
+        interrupt->Halt();
     } else  if ((which == SyscallException) && (type == SC_Exit)) {
-        printf("System Call: %d invoked [exit]", currentThread->space->pcb->pid);
+        printf("System Call: 99 invoked [exit]");
         // Implement Exit system call
         doExit(machine->ReadRegister(4));
     } else if ((which == SyscallException) && (type == SC_Fork)) {
