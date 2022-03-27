@@ -167,6 +167,8 @@ int doFork(int functionAddr) {
 
 int doExec(char* filename) {
 
+    printf("Inside of fork");
+
     // Use progtest.cc:StartProcess() as a guide
 
     // 1. Open the file and check validity
@@ -243,6 +245,7 @@ int doJoin(int pid) {
 }
 
 void doYield() {
+    printf("Inside of Yield");
     currentThread->Yield();
 }
 
@@ -277,6 +280,8 @@ ExceptionHandler(ExceptionType which)
         int ret = doFork(machine->ReadRegister(4));
         machine->WriteRegister(2, ret);
         incrementPC();
+    } else if ((which == SyscallException) && (type == SC_Yield)) {
+        doYield();
     } else if ((which == SyscallException) && (type == SC_Exec)) {
         printf("System Call: %d invoked [exec]", currentThread->space->pcb->pid);
         int virtAddr = machine->ReadRegister(4);
