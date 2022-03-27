@@ -107,63 +107,61 @@ int doFork(int functionAddr) {
 
     printf("Inside of fork");
 
-    // // 1. Check if sufficient memory exists to create new process
-    // // currentThread->space->GetNumPages() <= mm->GetFreePageCount()
-    // // if check fails, return -1
-    // if (currentThread->space->GetNumPages() >= mm->GetFreePageCount()) {
-    //     return -1;
-    // }
+    // 1. Check if sufficient memory exists to create new process
+    // currentThread->space->GetNumPages() <= mm->GetFreePageCount()
+    // if check fails, return -1
+    if (currentThread->space->GetNumPages() >= mm->GetFreePageCount()) {
+        return -1;
+    }
 
-    // // 2. SaveUserState for the parent thread
-    // // currentThread->SaveUserState();
+    // 2. SaveUserState for the parent thread
     // currentThread->SaveUserState();
+    currentThread->SaveUserState();
 
-    // // 3. Create a new address space for child by copying parent address space
-    // // Parent: currentThread->space
-    // AddrSpace* childAddrSpace = new AddrSpace(currentThread->space);
+    // 3. Create a new address space for child by copying parent address space
+    // Parent: currentThread->space
+    AddrSpace* childAddrSpace = new AddrSpace(currentThread->space);
 
 
-    // // 4. Create a new thread for the child and set its addrSpace
-    // // childThread = new Thread("childThread")
-    // // child->space = childAddSpace;
-    // Thread *childThread = new Thread("childThread");
-    // childThread->space = childAddrSpace;
+    // 4. Create a new thread for the child and set its addrSpace
+    // childThread = new Thread("childThread")
+    // child->space = childAddSpace;
+    Thread *childThread = new Thread("childThread");
+    childThread->space = childAddrSpace;
 
-    // // 5. Create a PCB for the child and connect it all up
-    // // pcb: pcbManager->AllocatePCB();
-    // // pcb->thread = childThread
-    // // set parent for child pcb
-    // // add child for parent pcb
-    // PCB *childPCB = pcbManager->AllocatePCB();
-    // childPCB->thread = childThread;
-    // childPCB->parent = currentThread->space->pcb;
-    // currentThread->space->pcb->AddChild(childPCB);
+    // 5. Create a PCB for the child and connect it all up
+    // pcb: pcbManager->AllocatePCB();
+    // pcb->thread = childThread
+    // set parent for child pcb
+    // add child for parent pcb
+    PCB *childPCB = pcbManager->AllocatePCB();
+    childPCB->thread = childThread;
+    childPCB->parent = currentThread->space->pcb;
+    currentThread->space->pcb->AddChild(childPCB);
 
-    // // 6. Set up machine registers for child and save it to child thread
-    // // PCReg: functionAddr
-    // // PrevPCReg: functionAddr-4
-    // // NextPCReg: functionAddr+4
-    // // childThread->SaveUserState();
-    // machine->WriteRegister(PCReg, functionAddr);
-    // machine->WriteRegister(PrevPCReg, functionAddr - 4);
-    // machine->WriteRegister(NextPCReg, functionAddr + 4);
+    // 6. Set up machine registers for child and save it to child thread
+    // PCReg: functionAddr
+    // PrevPCReg: functionAddr-4
+    // NextPCReg: functionAddr+4
     // childThread->SaveUserState();
+    machine->WriteRegister(PCReg, functionAddr);
+    machine->WriteRegister(PrevPCReg, functionAddr - 4);
+    machine->WriteRegister(NextPCReg, functionAddr + 4);
+    childThread->SaveUserState();
 
 
-    // // 7. Call thread->fork on Child
-    // // childThread->Fork(childFunction, pcb->pid)
-    // printf("Splitting currentThread and childThread");
-    // childThread->Fork(childFunction, childPCB->pid);
+    // 7. Call thread->fork on Child
+    // childThread->Fork(childFunction, pcb->pid)
+    printf("Splitting currentThread and childThread");
+    childThread->Fork(childFunction, childPCB->pid);
 
-    // // 8. Restore register state of parent user-level process
-    // // currentThread->RestoreUserState()
-    // printf("Restore old state after childThread completion");
-    // currentThread->RestoreUserState();
+    // 8. Restore register state of parent user-level process
+    // currentThread->RestoreUserState()
+    printf("Restore old state after childThread completion");
+    currentThread->RestoreUserState();
 
-    // // 9. return pcb->pid;
-    // return childPCB->pid;
-
-    return 1;
+    // 9. return pcb->pid;
+    return childPCB->pid;
 
 }
 
