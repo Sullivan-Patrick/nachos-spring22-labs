@@ -2,6 +2,7 @@
 #define PCB_H
 
 #include "list.h"
+#include "system.h"
 
 class Thread;
 

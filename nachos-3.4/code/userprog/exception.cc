@@ -67,7 +67,7 @@ void doExit(int status) {
     pcb->DeleteExitedChildrenSetParentNull();
 
     // Manage PCB memory As a child process
-    if(pcb->parent == NULL) delete pcb;
+    if(pcb->parent == NULL) pcbManager->DeallocatePCB(pcb);
 
 }
 
