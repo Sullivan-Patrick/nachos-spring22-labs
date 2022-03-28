@@ -2,9 +2,9 @@
 #define PCB_H
 
 #include "list.h"
-#include "system.h"
 
-class Thread;
+class PCBManager;
+extern PCBManager* pcbManager;
 
 class PCB {
 
