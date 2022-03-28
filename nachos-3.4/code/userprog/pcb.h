@@ -3,6 +3,7 @@
 
 #include "list.h"
 
+class Thread;
 class PCBManager;
 extern PCBManager* pcbManager;
 
