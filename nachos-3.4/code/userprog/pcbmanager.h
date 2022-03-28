@@ -2,8 +2,8 @@
 #define PCBMANAGER_H
 
 #include "bitmap.h"
+#include "pcb.h"
 
-class PCB;
 
 class PCBManager {
 
