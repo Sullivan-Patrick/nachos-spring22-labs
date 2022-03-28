@@ -5,6 +5,7 @@
 #include "pcbmanager.h"
 
 class Thread;
+class PCBManager;
 extern PCBManager* pcbManager;
 
 class PCB {
