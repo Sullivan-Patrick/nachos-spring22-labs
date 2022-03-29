@@ -111,9 +111,9 @@ int doFork(int functionAddr) {
     // 1. Check if sufficient memory exists to create new process
     // currentThread->space->GetNumPages() <= mm->GetFreePageCount()
     // if check fails, return -1
-    if (currentThread->space->GetNumPages() >= mm->GetFreePageCount()) {
-        return -1;
-    }
+    // if (currentThread->space->GetNumPages() >= mm->GetFreePageCount()) {
+    //     return -1;
+    // }
 
     // // 2. SaveUserState for the parent thread
     // // currentThread->SaveUserState();
