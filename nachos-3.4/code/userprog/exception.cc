@@ -282,6 +282,7 @@ ExceptionHandler(ExceptionType which)
         incrementPC();
     } else if ((which == SyscallException) && (type == SC_Yield)) {
         doYield();
+        incrementPC();
     } else if ((which == SyscallException) && (type == SC_Exec)) {
         printf("System Call: %d invoked [exec]", currentThread->space->pcb->pid);
         int virtAddr = machine->ReadRegister(4);
