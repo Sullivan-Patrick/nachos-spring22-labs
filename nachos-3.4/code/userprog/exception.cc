@@ -96,7 +96,7 @@ void childFunction(int pid) {
 }
 
 int doFork(int functionAddr) {
-
+    printf("inside fork \n");
     // 1. Check if sufficient memory exists to create new process
     // currentThread->space->GetNumPages() <= mm->GetFreePageCount()
     // if check fails, return -1
@@ -131,11 +131,10 @@ int doFork(int functionAddr) {
     // currentThread->RestoreUserState()
 
     // 9. return pcb->pid;
-
+    return 0;
 }
 
 int doExec(char* filename) {
-    printf("inside fork \n");
     // Use progtest.cc:StartProcess() as a guide
 
     // 1. Open the file and check validity
