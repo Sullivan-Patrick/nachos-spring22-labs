@@ -246,7 +246,7 @@ int doJoin(int pid) {
 }
 
 void doYield() {
-    // printf("Inside of Yield");
+    printf("Inside of Yield");
     currentThread->Yield();
 }
 
