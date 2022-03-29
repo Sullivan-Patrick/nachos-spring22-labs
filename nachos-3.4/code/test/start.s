@@ -132,6 +132,9 @@ Yield:
 	/* Only return once the the user program "id" has finished.
  * Return the exit status.
  */
+
+	.globl Kill
+	.ent 	Kill
 Kill:
 	addiu $2,$0,SC_Kill
 	syscall
