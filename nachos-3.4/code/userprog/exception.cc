@@ -107,7 +107,6 @@ int doFork(int functionAddr) {
 
     printf("Inside of fork");
 
-
     // 1. Check if sufficient memory exists to create new process
     // currentThread->space->GetNumPages() <= mm->GetFreePageCount()
     // if check fails, return -1

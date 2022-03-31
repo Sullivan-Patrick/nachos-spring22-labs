@@ -23,7 +23,7 @@ PCB::~PCB() {
 
 void PCB::AddChild(PCB* pcb) {
 
-    children->Append(pcb);
+    // children->Append(pcb);
 
 
 }
