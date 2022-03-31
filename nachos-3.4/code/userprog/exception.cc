@@ -96,8 +96,7 @@ void childFunction(int pid) {
     // PCReg == machine->ReadRegister(PCReg)
     int newPCReg = machine->ReadRegister(PCReg);
     // print message for child creation (pid,  PCReg, currentThread->space->GetNumPages())
-    printf("System Call: [%d] invoked [Fork]\n", pid);
-    printf("Process [%d] was created with [%d] [%d]\n", pid, newPCReg, currentThread->space->GetNumPages());
+    printf("Process [%d] Fork: start at address [%d] with [%d] pages memory\n", pid, newPCReg, currentThread->space->GetNumPages());
 
     machine->Run();
 
@@ -105,7 +104,7 @@ void childFunction(int pid) {
 
 int doFork(int functionAddr) {
 
-    printf("Inside of fork \n");
+    // printf("Inside of fork \n");
 
     // 1. Check if sufficient memory exists to create new process
     // currentThread->space->GetNumPages() <= mm->GetFreePageCount()
@@ -149,7 +148,7 @@ int doFork(int functionAddr) {
     // NextPCReg: functionAddr+4
     // childThread->SaveUserState();
     machine->WriteRegister(PCReg, functionAddr);
-    printf("This is the address of the function to fork %d \n", functionAddr);
+    // printf("This is the address of the function to fork %d \n", functionAddr);
     machine->WriteRegister(PrevPCReg, functionAddr - 4);
     machine->WriteRegister(NextPCReg, functionAddr + 4);
     childThread->SaveUserState();
@@ -157,12 +156,12 @@ int doFork(int functionAddr) {
 
     // 7. Call thread->fork on Child
     // childThread->Fork(childFunction, pcb->pid)
-    printf("Splitting currentThread and childThread  \n");
+    // printf("Splitting currentThread and childThread  \n");
     childThread->Fork(childFunction, childPCB->pid);
 
     // 8. Restore register state of parent user-level process
     // currentThread->RestoreUserState()
-    printf("Restore old state after childThread completion \n");
+    // printf("Restore old state after childThread completion \n");
     currentThread->RestoreUserState();
 
     // 9. return pcb->pid;
@@ -247,7 +246,7 @@ int doJoin(int pid) {
 }
 
 void doYield() {
-    printf("Inside of Yield \n");
+    // printf("Inside of Yield \n");
     currentThread->Yield();
 }
 
@@ -277,7 +276,7 @@ ExceptionHandler(ExceptionType which)
         // Implement Exit system call
         doExit(machine->ReadRegister(4));
     } else if ((which == SyscallException) && (type == SC_Fork)) {
-        printf("System Call: 99 invoked [fork] \n");
+        printf("System Call: [%d] invoked [fork] \n", currentThread->space->pcb->pid);
         int ret = doFork(machine->ReadRegister(4));
         machine->WriteRegister(2, ret);
         incrementPC();

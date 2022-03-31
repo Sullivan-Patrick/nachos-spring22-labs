@@ -17,6 +17,7 @@
 
 #include "copyright.h"
 #include "system.h"
+#include "machine.h"
 #include "addrspace.h"
 #include "translate.h"
 #include "noff.h"
@@ -124,8 +125,7 @@ AddrSpace::AddrSpace(OpenFile *executable)
     }
 
     // Print the sizes of the code, (initialized) data and /// bss (uninitialized) data segments in bytes
-
-    // printf("Loaded Program: %d code | %d data | [z] bss", noffH.code.size, noffH.initData.size, )
+    printf("Loaded Program: %d code | %d data | [] bss", noffH.code.size, noffH.initData.size, noffH.uninitData.size);
 }
 
 
