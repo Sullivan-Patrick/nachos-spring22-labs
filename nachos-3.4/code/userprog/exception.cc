@@ -54,7 +54,7 @@
 
 void doExit(int status) {
 
-    int pid = currentThread->space->pcb->pid;
+    int pid = 99;
 
     printf("System Call: [%d] invoked [Exit]\n", pid);
     printf ("Process [%d] exits with [%d]\n", pid, status);
