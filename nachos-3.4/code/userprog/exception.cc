@@ -110,6 +110,7 @@ int doFork(int functionAddr) {
     // currentThread->space->GetNumPages() <= mm->GetFreePageCount()
     // if check fails, return -1
     if (currentThread->space->GetNumPages() >= mm->GetFreePageCount()) {
+        printf("Inside of fork 2\n");
         return -1;
     }
 
@@ -125,7 +126,6 @@ int doFork(int functionAddr) {
     // 4. Create a new thread for the child and set its addrSpace
     // childThread = new Thread("childThread")
     // child->space = childAddSpace;
-    printf("Inside of fork 2\n");
     Thread *childThread = new Thread("childThread");
     childThread->space = childAddrSpace;
 
