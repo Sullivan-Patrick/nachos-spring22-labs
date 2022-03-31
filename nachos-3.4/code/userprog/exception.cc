@@ -142,6 +142,7 @@ int doFork(int functionAddr) {
     } else {
         currentThread->space->pcb->AddChild(childPCB);
     }
+    childThread->space->pcb = childPCB;
 
     // 6. Set up machine registers for child and save it to child thread
     // PCReg: functionAddr
