@@ -281,7 +281,7 @@ ExceptionHandler(ExceptionType which)
         machine->WriteRegister(2, ret);
         incrementPC();
     } else if ((which == SyscallException) && (type == SC_Yield)) {
-        printf("System Call: 99 invoked [yield] \n");
+        printf("System Call: [%d] invoked [yield] \n", currentThread->space->pcb->pid);
         doYield();
         incrementPC();
     } else if ((which == SyscallException) && (type == SC_Exec)) {
