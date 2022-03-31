@@ -18,6 +18,7 @@
 #include "copyright.h"
 #include "system.h"
 #include "addrspace.h"
+#include "translate.h"
 #include "noff.h"
 #ifdef HOST_SPARC
 #include <strings.h>
@@ -145,6 +146,8 @@ unsigned int AddrSpace::GetNumPages() {
 AddrSpace::AddrSpace(AddrSpace* space) {
 
     valid = true;
+
+    numPages = space->numPages;
 
     // 1. Find how big the source address space is
     unsigned int n = space->GetNumPages();

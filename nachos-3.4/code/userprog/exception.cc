@@ -149,6 +149,7 @@ int doFork(int functionAddr) {
     // NextPCReg: functionAddr+4
     // childThread->SaveUserState();
     machine->WriteRegister(PCReg, functionAddr);
+    printf("This is the address of the function to fork %d \n", functionAddr);
     machine->WriteRegister(PrevPCReg, functionAddr - 4);
     machine->WriteRegister(NextPCReg, functionAddr + 4);
     childThread->SaveUserState();
@@ -246,7 +247,7 @@ int doJoin(int pid) {
 }
 
 void doYield() {
-    printf("Inside of Yield");
+    printf("Inside of Yield \n");
     currentThread->Yield();
 }
 
@@ -281,6 +282,7 @@ ExceptionHandler(ExceptionType which)
         machine->WriteRegister(2, ret);
         incrementPC();
     } else if ((which == SyscallException) && (type == SC_Yield)) {
+        printf("System Call: 99 invoked [yield] \n");
         doYield();
         incrementPC();
     } else if ((which == SyscallException) && (type == SC_Exec)) {
@@ -296,8 +298,8 @@ ExceptionHandler(ExceptionType which)
         machine->WriteRegister(2, ret);
         incrementPC();
     } else {
-	printf("Unexpected user mode exception %d %d\n", which, type);
-	ASSERT(FALSE);
+        printf("Unexpected user mode exception %d %d\n", which, type);
+        ASSERT(FALSE);
     }
 }
 
