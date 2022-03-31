@@ -156,7 +156,7 @@ int doFork(int functionAddr) {
 
     // 7. Call thread->fork on Child
     // childThread->Fork(childFunction, pcb->pid)
-    // printf("Splitting currentThread and childThread  \n");
+    printf("Splitting currentThread and childThread  \n");
     childThread->Fork(childFunction, childPCB->pid);
 
     // 8. Restore register state of parent user-level process
