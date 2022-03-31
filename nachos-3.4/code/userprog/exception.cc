@@ -105,7 +105,7 @@ void childFunction(int pid) {
 
 int doFork(int functionAddr) {
 
-    printf("Inside of fork");
+    printf("Inside of fork \n");
 
     // 1. Check if sufficient memory exists to create new process
     // currentThread->space->GetNumPages() <= mm->GetFreePageCount()
@@ -137,7 +137,11 @@ int doFork(int functionAddr) {
     PCB *childPCB = pcbManager->AllocatePCB();
     childPCB->thread = childThread;
     childPCB->parent = currentThread->space->pcb;
-    currentThread->space->pcb->AddChild(childPCB);
+    if(currentThread->space->pcb == NULL) {
+        printf("Current thread pcb is null \n");
+    } else {
+        currentThread->space->pcb->AddChild(childPCB);
+    }
 
     // 6. Set up machine registers for child and save it to child thread
     // PCReg: functionAddr
@@ -152,12 +156,12 @@ int doFork(int functionAddr) {
 
     // 7. Call thread->fork on Child
     // childThread->Fork(childFunction, pcb->pid)
-    printf("Splitting currentThread and childThread");
+    printf("Splitting currentThread and childThread  \n");
     childThread->Fork(childFunction, childPCB->pid);
 
     // 8. Restore register state of parent user-level process
     // currentThread->RestoreUserState()
-    printf("Restore old state after childThread completion");
+    printf("Restore old state after childThread completion \n");
     currentThread->RestoreUserState();
 
     // 9. return pcb->pid;
@@ -272,7 +276,7 @@ ExceptionHandler(ExceptionType which)
         // Implement Exit system call
         doExit(machine->ReadRegister(4));
     } else if ((which == SyscallException) && (type == SC_Fork)) {
-        printf("System Call: 99 invoked [fork]");
+        printf("System Call: 99 invoked [fork] \n");
         int ret = doFork(machine->ReadRegister(4));
         machine->WriteRegister(2, ret);
         incrementPC();
