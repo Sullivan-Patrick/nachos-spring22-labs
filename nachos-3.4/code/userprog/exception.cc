@@ -125,6 +125,7 @@ int doFork(int functionAddr) {
     // 4. Create a new thread for the child and set its addrSpace
     // childThread = new Thread("childThread")
     // child->space = childAddSpace;
+    printf("Inside of fork 2\n");
     Thread *childThread = new Thread("childThread");
     childThread->space = childAddrSpace;
 
