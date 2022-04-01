@@ -219,7 +219,7 @@ int doExec(char* filename) {
 
     // 5. Set the thread for the new pcb
     // pcb->thread = currentThread;
-    pcb->thread = currentThread;
+    // pcb->thread = currentThread;
 
     // 6. Delete current address space
     // delete currentThread->space;
