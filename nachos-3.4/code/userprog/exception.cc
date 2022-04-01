@@ -200,6 +200,7 @@ int doExec(char* filename) {
     // printf("Could not create AddrSpace\n");
     //     return -1;
     // }
+    printf("Address space created success\n");
     if(space->valid != true) {
         printf("Could not create AddrSpace\n");
         return -1;
