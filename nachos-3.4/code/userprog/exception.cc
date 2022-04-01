@@ -192,7 +192,7 @@ int doExec(char* filename) {
 
     // 2. Create new address space
     // space = new AddrSpace(executable);
-
+    delete currentThread->space;
     space = new AddrSpace(executable);
 
     // 3. Check if Addrspace creation was successful
