@@ -78,6 +78,8 @@ AddrSpace::AddrSpace(OpenFile *executable)
         printf("noffH.noffMagic != NOFFMAGIC\n");
         valid = false;
         return;
+    } else {
+        printf("noffH.noffMagic is valid");
     }
 
 // how big is address space?
