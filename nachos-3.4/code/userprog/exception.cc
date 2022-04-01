@@ -310,7 +310,7 @@ ExceptionHandler(ExceptionType which)
         doYield();
         incrementPC();
     } else if ((which == SyscallException) && (type == SC_Exec)) {
-        printf("System Call: %d invoked [exec]", currentThread->space->pcb->pid);
+        printf("System Call: %d invoked [exec]\n", currentThread->space->pcb->pid);
         int virtAddr = machine->ReadRegister(4);
         char* fileName = translate(virtAddr);
         int ret = doExec(fileName);

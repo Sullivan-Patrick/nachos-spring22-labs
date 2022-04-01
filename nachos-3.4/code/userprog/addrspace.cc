@@ -75,6 +75,7 @@ AddrSpace::AddrSpace(OpenFile *executable)
 
 
     if(noffH.noffMagic != NOFFMAGIC) {
+        printf("noffH.noffMagic != NOFFMAGIC\n");
         valid = false;
         return;
     }
@@ -87,6 +88,7 @@ AddrSpace::AddrSpace(OpenFile *executable)
     size = numPages * PageSize;
 
     if(numPages > mm->GetFreePageCount()) {
+        printf("numPages > mm->GetFreePageCount()\n");
         valid = false;
         return;
     }
