@@ -93,6 +93,8 @@ AddrSpace::AddrSpace(OpenFile *executable)
         printf("numPages > mm->GetFreePageCount()\n");
         valid = false;
         return;
+    } else {
+        printf("numPages is valid\n");
     }
 
     DEBUG('a', "Initializing address space, num pages %d, size %d\n",
