@@ -131,7 +131,7 @@ AddrSpace::AddrSpace(OpenFile *executable)
     }
 
     // Print the sizes of the code, (initialized) data and /// bss (uninitialized) data segments in bytes
-    printf("Loaded Program: %d code | %d data | [] bss \n", noffH.code.size, noffH.initData.size, noffH.uninitData.size);
+    printf("Loaded Program: %d code | %d data | [%d] bss \n", noffH.code.size, noffH.initData.size, noffH.uninitData.size);
 }
 
 
