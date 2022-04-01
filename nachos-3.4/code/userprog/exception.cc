@@ -187,7 +187,7 @@ int doExec(char* filename) {
 
     if (executable == NULL) {
         printf("Unable to open file %s\n", filename);
-        return;
+        return -1;
     }
 
     // 2. Create new address space
