@@ -237,12 +237,12 @@ int doExec(char* filename) {
 
     // 9. Initialize registers for new addrspace
     //  space->InitRegisters();		// set the initial register values
-    space->InitRegisters();
+    currentThread->space->InitRegisters();
     printf("space->InitRegisters()\n");
 
     // 10. Initialize the page table
     // space->RestoreState();		// load page table register
-    space->RestoreState();
+    currentThread->space->RestoreState();
     printf("space->RestoreState()\n");
 
     // 11. Run the machine now that all is set up
