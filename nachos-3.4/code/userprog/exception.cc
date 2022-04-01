@@ -229,17 +229,21 @@ int doExec(char* filename) {
     // 7. Set the addrspace for currentThread
     // currentThread->space = space;
     currentThread->space = space;
+    printf("New Address space set\n");
 
     // 8.     delete executable;			// close file
     delete executable;
+    printf("delete executable\n");
 
     // 9. Initialize registers for new addrspace
     //  space->InitRegisters();		// set the initial register values
     space->InitRegisters();
+    printf("space->InitRegisters()\n");
 
     // 10. Initialize the page table
     // space->RestoreState();		// load page table register
     space->RestoreState();
+    printf("space->RestoreState()\n");
 
     // 11. Run the machine now that all is set up
     // machine->Run();			// jump to the user progam
