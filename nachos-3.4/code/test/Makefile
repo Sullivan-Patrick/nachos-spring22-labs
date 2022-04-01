@@ -66,6 +66,12 @@ exec: exec.o start.o
 	$(LD) $(LDFLAGS) start.o exec.o -o exec.coff
 	../bin/coff2noff exec.coff exec
 
+memory.o: memory.c
+	$(CC) $(CFLAGS) -c memory.c
+memory: memory.o start.o
+	$(LD) $(LDFLAGS) start.o memory.o -o memory.coff
+	../bin/coff2noff memory.coff memory
+
 shell.o: shell.c
 	$(CC) $(CFLAGS) -c shell.c
 shell: shell.o start.o
