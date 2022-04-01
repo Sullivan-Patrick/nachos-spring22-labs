@@ -224,7 +224,7 @@ int doExec(char* filename) {
 
     // 6. Delete current address space
     // delete currentThread->space;
-    delete currentThread->space;
+    // delete currentThread->space;
 
     // 7. Set the addrspace for currentThread
     // currentThread->space = space;
