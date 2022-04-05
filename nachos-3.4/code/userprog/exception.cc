@@ -240,7 +240,7 @@ int doExec(char* filename) {
     // machine->Run();			// jump to the user progam
     // ASSERT(FALSE); // Execution nevere reaches here
     int pcReg = machine->ReadRegister(PCReg);
-    printf("this is the pc reg %d", pcReg);
+    printf("this is the pc reg %d \n", pcReg);
     machine->Run();
     ASSERT(FALSE);
 
