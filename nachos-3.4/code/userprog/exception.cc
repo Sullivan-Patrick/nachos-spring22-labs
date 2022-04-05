@@ -210,7 +210,7 @@ int doExec(char* filename) {
     // pcb->parent = currentThread->space->pcb->parent;
     // space->pcb = pcb;
     PCB *newPcb = pcbManager->AllocatePCB();
-    newPcb->parent = currentThread->space->pcb->parent;
+    //newPcb->parent = currentThread->space->pcb->parent;
     space->pcb = newPcb;
 
     // 5. Set the thread for the new pcb
