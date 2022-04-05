@@ -209,13 +209,13 @@ int doExec(char* filename) {
     // Initialize parent
     // pcb->parent = currentThread->space->pcb->parent;
     // space->pcb = pcb;
-    PCB *newPcb = pcbManager->AllocatePCB();
-    newPcb->parent = currentThread->space->pcb->parent;
-    space->pcb = newPcb;
+    // PCB *newPcb = pcbManager->AllocatePCB();
+    // newPcb->parent = currentThread->space->pcb->parent;
+    // space->pcb = newPcb;
 
     // 5. Set the thread for the new pcb
     // pcb->thread = currentThread;
-    newPcb->thread = currentThread;
+    //newPcb->thread = currentThread;
 
     // 6. Delete current address space
     // delete currentThread->space;
