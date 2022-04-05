@@ -146,8 +146,6 @@ AddrSpace::AddrSpace(OpenFile *executable)
             executable->ReadAt(&(machine->mainMemory[(pageTable[noffH.initData.virtualAddr/128 + k].physicalPage)*128]),
 			    initDataLeftoverPage, noffH.initData.inFileAddr + k*128);
 
-        executable->ReadAt(&(machine->mainMemory[noffH.initData.virtualAddr]),
-			noffH.initData.size, noffH.initData.inFileAddr);
     }
 
 
