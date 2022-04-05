@@ -110,7 +110,7 @@ AddrSpace::AddrSpace(OpenFile *executable)
         // Zero out each page, to zero the unitialized data segment
         // and the stack segment
         unsigned int physicalPageAddress = (pageTable[i].physicalPage)*128;
-        bzero(&(machine->mainMemory[physicalPageAddress*128]), 128);
+        bzero(&(machine->mainMemory[physicalPageAddress]), 128);
     }
 
     // then, copy in the code and data segments into memory
