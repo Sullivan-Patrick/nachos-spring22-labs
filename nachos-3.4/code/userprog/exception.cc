@@ -188,7 +188,7 @@ int doExec(char* filename) {
 
     // 2. Create new address space
     // space = new AddrSpace(executable);
-    // delete currentThread->space;
+    delete currentThread->space;
     space = new AddrSpace(executable);
 
     // 3. Check if Addrspace creation was successful
@@ -219,7 +219,7 @@ int doExec(char* filename) {
 
     // 6. Delete current address space
     // delete currentThread->space;
-    delete currentThread->space;
+    //delete currentThread->space;
 
     // 7. Set the addrspace for currentThread
     // currentThread->space = space;
@@ -239,6 +239,7 @@ int doExec(char* filename) {
     // 11. Run the machine now that all is set up
     // machine->Run();			// jump to the user progam
     // ASSERT(FALSE); // Execution nevere reaches here
+    printf(machine->ReadRegister(PCReg));
     machine->Run();
     ASSERT(FALSE);
 
