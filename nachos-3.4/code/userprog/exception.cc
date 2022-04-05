@@ -239,7 +239,8 @@ int doExec(char* filename) {
     // 11. Run the machine now that all is set up
     // machine->Run();			// jump to the user progam
     // ASSERT(FALSE); // Execution nevere reaches here
-    printf(machine->ReadRegister(PCReg));
+    int pcReg = machine->ReadRegister(PCReg);
+    printf("this is the pc reg %d", pcReg);
     machine->Run();
     ASSERT(FALSE);
 
