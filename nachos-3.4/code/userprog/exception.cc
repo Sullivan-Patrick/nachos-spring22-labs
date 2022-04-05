@@ -194,6 +194,8 @@ int doExec(char* filename) {
     // space = new AddrSpace(executable);
     delete currentThread->space;
     space = new AddrSpace(executable);
+    PCB *currentThreadPcb = pcbManager->AllocatePCB();
+    currentThread->space->pcb = currentThreadPcb;
 
     // 3. Check if Addrspace creation was successful
     // if(space->valid != true) {
@@ -237,12 +239,12 @@ int doExec(char* filename) {
 
     // 9. Initialize registers for new addrspace
     //  space->InitRegisters();		// set the initial register values
-    currentThread->space->InitRegisters();
+    space->InitRegisters();
     printf("space->InitRegisters()\n");
 
     // 10. Initialize the page table
     // space->RestoreState();		// load page table register
-    currentThread->space->RestoreState();
+    space->RestoreState();
     printf("space->RestoreState()\n");
 
     // 11. Run the machine now that all is set up
