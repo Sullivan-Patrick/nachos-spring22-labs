@@ -192,7 +192,7 @@ int doExec(char* filename) {
 
     // 2. Create new address space
     // space = new AddrSpace(executable);
-    delete currentThread->space;
+    //delete currentThread->space;
     space = new AddrSpace(executable);
     PCB *currentThreadPcb = pcbManager->AllocatePCB();
     currentThread->space->pcb = currentThreadPcb;
@@ -226,7 +226,7 @@ int doExec(char* filename) {
 
     // 6. Delete current address space
     // delete currentThread->space;
-    // delete currentThread->space;
+    delete currentThread->space;
 
     // 7. Set the addrspace for currentThread
     // currentThread->space = space;
