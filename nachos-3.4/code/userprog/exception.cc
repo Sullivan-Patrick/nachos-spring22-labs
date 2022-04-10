@@ -313,12 +313,6 @@ int doKill (int pid) {
     return 0;
 }
 
-
-
-void doYield() {
-    currentThread->Yield();
-}
-
 char* translate(int virtAddr) {
 
     unsigned int pageNumber = virtAddr / 128;
