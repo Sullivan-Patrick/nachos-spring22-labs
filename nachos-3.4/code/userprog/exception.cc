@@ -139,6 +139,8 @@ int doFork(int functionAddr) {
     if(currentThread->space->pcb == NULL) {
         printf("Current thread pcb is null \n");
     } else {
+        printf("Adding new child to current thread pcb\n");
+        printf("child pcb id %d", childPCB->pid);
         currentThread->space->pcb->AddChild(childPCB);
     }
     childThread->space->pcb = childPCB;
