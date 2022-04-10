@@ -254,7 +254,10 @@ int doJoin(int pid) {
     // PCB* joinPCB = pcbManager->GetPCB(pid);
     // if (pcb == NULL) return -1;
     PCB* joinPCB = pcbManager->GetPCB(pid);
-    if (joinPCB == NULL) return -1;
+    if (joinPCB == NULL) {
+        printf("process already done \n");
+        return -1;
+    }
 
     // 2. Check if pid is a child of current process
     // PCB* pcb = currentThread->space->pcb;
@@ -266,7 +269,7 @@ int doJoin(int pid) {
     // while(!joinPCB->hasExited) currentThread->Yield();
     while(!joinPCB->HasExited()) currentThread->Yield();
 
-    printf("GOt out of the loop");
+    printf("GOt out of the loop \n");
 
     // 4. Store status and delete joinPCB
     // int status = joinPCB->exitStatus;
