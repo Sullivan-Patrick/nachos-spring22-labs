@@ -29,6 +29,7 @@ PCB* PCBManager::AllocatePCB() {
     pcbManagerLock->Acquire();
 
     int pid = bitmap->Find();
+    printf("new pid for new pcb %d\n", pid);
 
     // Release pcbManagerLock
     pcbManagerLock->Release();
