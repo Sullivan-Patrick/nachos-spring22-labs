@@ -57,7 +57,6 @@ void doExit(int status) {
     int pid = currentThread->space->pcb->pid;
 
     printf("System Call: [%d] invoked [Exit]\n", pid);
-    printf ("Process [%d] exits with [%d]\n", pid, status);
 
     currentThread->space->pcb->exitStatus = status;
 
@@ -69,6 +68,8 @@ void doExit(int status) {
 
     // Manage PCB memory As a child process
     if(pcb->parent == NULL) pcbManager->DeallocatePCB(pcb);
+
+    printf ("Process [%d] exits with [%d]\n", pid, status);
 
     delete currentThread->space;
     currentThread->Finish();
