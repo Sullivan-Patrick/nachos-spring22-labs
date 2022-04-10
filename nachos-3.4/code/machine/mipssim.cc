@@ -102,9 +102,9 @@ Machine::OneInstruction(Instruction *instr)
     if (!machine->ReadMem(registers[PCReg], 4, &raw))
 	return;			// exception occurred
     instr->value = raw;
-		printf("First instruction %d\n", instr->value);
+		//printf("First instruction %d\n", instr->value);
     instr->Decode();
-		printf("First instruction decoded %d\n", instr->value);
+		//printf("First instruction decoded %d\n", instr->value);
 
     if (DebugIsEnabled('m')) {
        struct OpString *str = &opStrings[instr->opCode];
