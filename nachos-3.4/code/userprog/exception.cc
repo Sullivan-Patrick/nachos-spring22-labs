@@ -67,6 +67,7 @@ void doExit(int status) {
     PCB* pcb = currentThread->space->pcb;
 
     // Delete exited children and set parent null for non-exited ones
+    printf("executing DeleteExitedChildrenSetParentNull \n");
     pcb->DeleteExitedChildrenSetParentNull();
 
     // Manage PCB memory As a child process
