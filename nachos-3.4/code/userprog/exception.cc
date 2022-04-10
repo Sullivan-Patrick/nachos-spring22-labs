@@ -266,6 +266,8 @@ int doJoin(int pid) {
     // while(!joinPCB->hasExited) currentThread->Yield();
     while(!joinPCB->HasExited()) currentThread->Yield();
 
+    printf("GOt out of the loop");
+
     // 4. Store status and delete joinPCB
     // int status = joinPCB->exitStatus;
     // delete joinPCB;
