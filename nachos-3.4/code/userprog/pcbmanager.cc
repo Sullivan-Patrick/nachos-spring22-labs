@@ -48,6 +48,9 @@ int PCBManager::DeallocatePCB(PCB* pcb) {
     // Check is pcb is valid -- check pcbs for pcb->pid
     bool found = false;
     for(int i = 0; i < sizeof(pcbs); i++) {
+        printf("pcb from pcb array, pcb id %d\n", pcbs[i]->pid);
+    }
+    for(int i = 0; i < sizeof(pcbs); i++) {
         if(pcbs[i]->pid == pcb->pid) {
             printf("Found the pcb to deallocate, pcb id %d\n", pcb->pid);
             found = true;
