@@ -94,6 +94,10 @@ AddrSpace::AddrSpace(OpenFile *executable)
         return;
     }
 
+    // Allocate a new PCB for the address space
+    pcb = pcbManager->AllocatePCB(currentThread);
+    pcb->thread = currentThread;
+
     DEBUG('a', "Initializing address space, num pages %d, size %d\n",
 					numPages, size);
 // first, set up the translation
@@ -107,28 +111,48 @@ AddrSpace::AddrSpace(OpenFile *executable)
         pageTable[i].readOnly = FALSE;  // if the code segment was entirely on
                         // a separate page, we could set its
                         // pages to be read-only
+
+        // Zero out each page, to zero the unitialized data segment
+        // and the stack segment
+        unsigned int physicalPageAddress = (pageTable[i].physicalPage)*128;
+        bzero(&(machine->mainMemory[physicalPageAddress]), 128);
     }
 
-// zero out the entire address space, to zero the unitialized data segment
-// and the stack segment
-    bzero(machine->mainMemory, size);
-
-// then, copy in the code and data segments into memory
+    // then, copy in the code and data segments into memory
     if (noffH.code.size > 0) {
         //printf("Copying the code\n");
         DEBUG('a', "Initializing code segment, at 0x%x, size %d\n",
 			noffH.code.virtualAddr, noffH.code.size);
-        executable->ReadAt(&(machine->mainMemory[noffH.code.virtualAddr]),
-			noffH.code.size, noffH.code.inFileAddr);
+        int codePages = noffH.code.size / 128;
+        int codeLeftoverPage = noffH.code.size % 128;
+        int k;
+        for (k = 0 ; k < codePages; k++ ) {
+            executable->ReadAt(&(machine->mainMemory[(pageTable[noffH.code.virtualAddr/128 + k].physicalPage)*128]),
+			    128, noffH.code.inFileAddr + k*128);
+        }
+        // copy over last page
+        if (codeLeftoverPage > 0)
+            executable->ReadAt(&(machine->mainMemory[(pageTable[noffH.code.virtualAddr/128 + k].physicalPage)*128]),
+			    codeLeftoverPage, noffH.code.inFileAddr + k*128);
 
-        // printf("Copying the code, %d\n", machine->mainMemory[noffH.code.virtualAddr]);
     }
     if (noffH.initData.size > 0) {
         //printf("Copying the initialized data");
         DEBUG('a', "Initializing data segment, at 0x%x, size %d\n",
 			noffH.initData.virtualAddr, noffH.initData.size);
-        executable->ReadAt(&(machine->mainMemory[noffH.initData.virtualAddr]),
-			noffH.initData.size, noffH.initData.inFileAddr);
+
+        int initDataPages = noffH.initData.size / 128;
+        int initDataLeftoverPage = noffH.initData.size % 128;
+        int k;
+        for (k = 0 ; k < initDataPages; k++ ) {
+            executable->ReadAt(&(machine->mainMemory[(pageTable[noffH.initData.virtualAddr/128 + k].physicalPage)*128]),
+			    128, noffH.initData.inFileAddr + k*128);
+        }
+        // copy over last page
+        if (initDataLeftoverPage > 0)
+            executable->ReadAt(&(machine->mainMemory[(pageTable[noffH.initData.virtualAddr/128 + k].physicalPage)*128]),
+			    initDataLeftoverPage, noffH.initData.inFileAddr + k*128);
+
     }
 
     // Print the sizes of the code, (initialized) data and /// bss (uninitialized) data segments in bytes

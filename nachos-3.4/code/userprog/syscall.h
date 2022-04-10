@@ -29,6 +29,7 @@
 #define SC_Close	8
 #define SC_Fork		9
 #define SC_Yield	10
+#define SC_Kill     11
 
 #ifndef IN_ASM
 
@@ -123,6 +124,11 @@ int Fork(void (*func)());
  * or not.
  */
 void Yield();
+
+/* Return 0 if successful; -1 if not
+ */
+int Kill(SpaceId id);
+
 
 #endif /* IN_ASM */
 
