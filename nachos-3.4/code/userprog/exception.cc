@@ -107,7 +107,7 @@ int doFork(int functionAddr) {
     // currentThread->space->GetNumPages() <= mm->GetFreePageCount()
     // if check fails, return -1
     if (currentThread->space->GetNumPages() >= mm->GetFreePageCount()) {
-        printf("Not Enough Memory for Child Process");
+        printf("Not Enough Memory for Child Process \n");
         return -1;
     }
 
