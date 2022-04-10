@@ -69,6 +69,9 @@ void doExit(int status) {
     // Manage PCB memory As a child process
     if(pcb->parent == NULL) pcbManager->DeallocatePCB(pcb);
 
+    for(int i = 0; i < sizeof(pcbManager->pcbs); i++) {
+        printf("pcb from pcbs array, pcb id %d\n", pcbManager->pcbs[i]->pid);
+    }
     printf ("Process [%d] exits with [%d]\n", pid, status);
 
     delete currentThread->space;
