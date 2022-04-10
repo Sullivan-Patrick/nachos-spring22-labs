@@ -357,12 +357,12 @@ ExceptionHandler(ExceptionType which)
         // Implement Exit system call
         doExit(machine->ReadRegister(4));
     } else if ((which == SyscallException) && (type == SC_Fork)) {
-        printf("System Call: [%d] invoked [fork] \n", currentThread->space->pcb->pid);
+        printf("System Call: [%d] invoked [fork]\n", currentThread->space->pcb->pid);
         int ret = doFork(machine->ReadRegister(4));
         machine->WriteRegister(2, ret);
         incrementPC();
     } else if ((which == SyscallException) && (type == SC_Yield)) {
-        printf("System Call: [%d] invoked [yield] \n", currentThread->space->pcb->pid);
+        printf("System Call: [%d] invoked [yield]\n", currentThread->space->pcb->pid);
         doYield();
         incrementPC();
     } else if ((which == SyscallException) && (type == SC_Exec)) {
@@ -373,7 +373,7 @@ ExceptionHandler(ExceptionType which)
         machine->WriteRegister(2, ret);
         incrementPC();
     } else if ((which == SyscallException) && (type == SC_Join)) {
-        printf("System Call: %d invoked [join]", currentThread->space->pcb->pid);
+        printf("System Call: %d invoked [join]\n", currentThread->space->pcb->pid);
         int ret = doJoin(machine->ReadRegister(4));
         machine->WriteRegister(2, ret);
         incrementPC();
