@@ -254,10 +254,11 @@ int doJoin(int pid) {
     // 1. Check if this is a valid pid and return -1 if not
     // PCB* joinPCB = pcbManager->GetPCB(pid);
     // if (pcb == NULL) return -1;
+    if(pid < 0) {
+        return -1;
+    }
     PCB* joinPCB = pcbManager->GetPCB(pid);
-    // printf("joinPCB id %d\n", joinPCB->pid);
     if (joinPCB == NULL) {
-        printf("process already done \n");
         return -1;
     }
 
