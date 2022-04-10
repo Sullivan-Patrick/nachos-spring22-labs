@@ -60,6 +60,12 @@ fork: fork.o start.o
 	$(LD) $(LDFLAGS) start.o fork.o -o fork.coff
 	../bin/coff2noff fork.coff fork
 
+kill.o: kill.c
+	$(CC) $(CFLAGS) -c kill.c
+kill: kill.o start.o
+	$(LD) $(LDFLAGS) start.o kill.o -o kill.coff
+	../bin/coff2noff kill.coff kill
+
 exec.o: exec.c
 	$(CC) $(CFLAGS) -c exec.c
 exec: exec.o start.o
