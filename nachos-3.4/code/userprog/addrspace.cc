@@ -75,10 +75,11 @@ AddrSpace::AddrSpace(OpenFile *executable)
 
 
     if(noffH.noffMagic != NOFFMAGIC) {
-        printf("noffH.noffMagic != NOFFMAGIC\n");
+        //printf("noffH.noffMagic != NOFFMAGIC\n");
         valid = false;
         return;
     }
+    printf("code size %d\n", noffH.code.size);
 
 // how big is address space?
     size = noffH.code.size + noffH.initData.size + noffH.uninitData.size
@@ -88,7 +89,7 @@ AddrSpace::AddrSpace(OpenFile *executable)
     size = numPages * PageSize;
 
     if(numPages > mm->GetFreePageCount()) {
-        printf("numPages > mm->GetFreePageCount()\n");
+        //printf("numPages > mm->GetFreePageCount()\n");
         valid = false;
         return;
     }
@@ -114,7 +115,7 @@ AddrSpace::AddrSpace(OpenFile *executable)
 
 // then, copy in the code and data segments into memory
     if (noffH.code.size > 0) {
-        printf("Copying the code\n");
+        //printf("Copying the code\n");
         DEBUG('a', "Initializing code segment, at 0x%x, size %d\n",
 			noffH.code.virtualAddr, noffH.code.size);
         executable->ReadAt(&(machine->mainMemory[noffH.code.virtualAddr]),
@@ -123,7 +124,7 @@ AddrSpace::AddrSpace(OpenFile *executable)
         // printf("Copying the code, %d\n", machine->mainMemory[noffH.code.virtualAddr]);
     }
     if (noffH.initData.size > 0) {
-        printf("Copying the initialized data");
+        //printf("Copying the initialized data");
         DEBUG('a', "Initializing data segment, at 0x%x, size %d\n",
 			noffH.initData.virtualAddr, noffH.initData.size);
         executable->ReadAt(&(machine->mainMemory[noffH.initData.virtualAddr]),
