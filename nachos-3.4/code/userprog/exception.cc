@@ -65,7 +65,6 @@ void doExit(int status) {
     PCB* pcb = currentThread->space->pcb;
 
     // Delete exited children and set parent null for non-exited ones
-    printf("executing DeleteExitedChildrenSetParentNull \n");
     pcb->DeleteExitedChildrenSetParentNull();
 
     // Manage PCB memory As a child process
@@ -256,7 +255,7 @@ int doJoin(int pid) {
     // PCB* joinPCB = pcbManager->GetPCB(pid);
     // if (pcb == NULL) return -1;
     PCB* joinPCB = pcbManager->GetPCB(pid);
-    printf("joinPCB id %d", joinPCB->pid);
+    printf("joinPCB id %d\n", joinPCB->pid);
     if (joinPCB == NULL) {
         printf("process already done \n");
         return -1;
@@ -272,7 +271,7 @@ int doJoin(int pid) {
     // while(!joinPCB->hasExited) currentThread->Yield();
     while(!joinPCB->HasExited()) currentThread->Yield();
 
-    printf("GOt out of the loop \n");
+    printf("JoinPCB has exited \n");
 
     // 4. Store status and delete joinPCB
     // int status = joinPCB->exitStatus;
