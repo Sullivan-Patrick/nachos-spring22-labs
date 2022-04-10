@@ -72,7 +72,8 @@ int PCBManager::DeallocatePCB(PCB* pcb) {
 }
 
 PCB* PCBManager::GetPCB(int pid) {
-    printf("pcbs array length %d", sizeof(pcbs));
+    printf("pcbs array length %d\n", sizeof(pcbs));
+    printf("pcb pid %d\n", pid);
     if(pcbs[pid] == NULL) {
         printf("pcb is null \n");
     }
