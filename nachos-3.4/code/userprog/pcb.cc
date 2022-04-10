@@ -52,5 +52,8 @@ void decspn(int arg) {
 
 
 void PCB::DeleteExitedChildrenSetParentNull() {
-    children->Mapcar(decspn);
+    if(!children->IsEmpty()) {
+        printf("Children list not empty\n");
+        children->Mapcar(decspn);
+    }
 }
