@@ -70,7 +70,9 @@ void doExit(int status) {
     if(pcb->parent == NULL) pcbManager->DeallocatePCB(pcb);
 
     for(int i = 0; i < sizeof(pcbManager->pcbs); i++) {
-        printf("pcb from pcbs array, pcb id %d\n", pcbManager->pcbs[i]->pid);
+        if(pcbManager->pcbs[i] != NULL) {
+            printf("pcb from pcbs array, pcb id %d\n", pcbManager->pcbs[i]->pid);
+        }
     }
     printf ("Process [%d] exits with [%d]\n", pid, status);
 
