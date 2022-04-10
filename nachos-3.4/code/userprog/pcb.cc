@@ -43,9 +43,9 @@ bool PCB::HasExited() {
 
 void decspn(int arg) {
     PCB* pcb = (PCB*)arg;
-    printf("pcb with id %d ready to deallocate", pcb->pid);
+    printf("pcb with id %d ready to deallocate \n", pcb->pid);
     if (pcb->HasExited()) {
-        printf("deallocated pcb with id %d", pcb->pid);
+        printf("deallocated pcb with id %d \n", pcb->pid);
         pcbManager->DeallocatePCB(pcb);
     } else {
         pcb->parent = NULL;
@@ -54,5 +54,6 @@ void decspn(int arg) {
 
 
 void PCB::DeleteExitedChildrenSetParentNull() {
+    printf("DeleteExitedChildrenSetParentNull executing \n");
     children->Mapcar(decspn);
 }
