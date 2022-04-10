@@ -119,6 +119,8 @@ AddrSpace::AddrSpace(OpenFile *executable)
 			noffH.code.virtualAddr, noffH.code.size);
         executable->ReadAt(&(machine->mainMemory[noffH.code.virtualAddr]),
 			noffH.code.size, noffH.code.inFileAddr);
+
+        printf("Copying the code, %d", machine->mainMemory[noffH.code.virtualAddr]);
     }
     if (noffH.initData.size > 0) {
         printf("Copying the initialized data");
