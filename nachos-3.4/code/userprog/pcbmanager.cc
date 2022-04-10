@@ -72,5 +72,8 @@ int PCBManager::DeallocatePCB(PCB* pcb) {
 }
 
 PCB* PCBManager::GetPCB(int pid) {
+    if(pcbs[pid] == NULL) {
+        printf("pcb is null \n");
+    }
     return pcbs[pid];
 }
