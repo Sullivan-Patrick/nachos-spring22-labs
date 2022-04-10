@@ -60,7 +60,7 @@ BitMap::Mark(int which)
 void
 BitMap::Clear(int which)
 {
-    printf("deallocating on bitmap the bit %d\n", which);
+    // printf("deallocating on bitmap the bit %d\n", which);
     ASSERT(which >= 0 && which < numBits);
     map[which / BitsInWord] &= ~(1 << (which % BitsInWord));
 }
