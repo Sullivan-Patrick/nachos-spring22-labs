@@ -298,7 +298,10 @@ int doKill (int pid) {
     // pcb->thread is the target thread
     joinPCB->thread->space;
     delete joinPCB->thread->space;
-    joinPCB->thread->Finish();
+    Thread* oldThread = currentThread;
+    currentThread = joinPCB->thread;
+    currentThread->Finish();
+
 
     // Manage PCB memory As a parent process
     PCB* pcb = joinPCB;
@@ -309,6 +312,7 @@ int doKill (int pid) {
     // Manage PCB memory As a child process
     if(pcb->parent == NULL) pcbManager->DeallocatePCB(pcb);
 
+    currentThread = oldThread;
     // 4. return 0 for success!
     return 0;
 }
