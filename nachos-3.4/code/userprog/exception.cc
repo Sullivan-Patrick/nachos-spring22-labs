@@ -255,7 +255,7 @@ int doJoin(int pid) {
     // PCB* joinPCB = pcbManager->GetPCB(pid);
     // if (pcb == NULL) return -1;
     PCB* joinPCB = pcbManager->GetPCB(pid);
-    printf("joinPCB id %d\n", joinPCB->pid);
+    // printf("joinPCB id %d\n", joinPCB->pid);
     if (joinPCB == NULL) {
         printf("process already done \n");
         return -1;
