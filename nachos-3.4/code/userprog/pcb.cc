@@ -43,6 +43,7 @@ bool PCB::HasExited() {
 
 void decspn(int arg) {
     PCB* pcb = (PCB*)arg;
+    printf("pcb with id %d ready to deallocate", pcb->pid);
     if (pcb->HasExited()) {
         printf("deallocated pcb with id %d", pcb->pid);
         pcbManager->DeallocatePCB(pcb);
