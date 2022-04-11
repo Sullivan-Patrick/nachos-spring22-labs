@@ -238,15 +238,28 @@ void doYield() {
     currentThread->Yield();
 }
 
-char* translate(int virtAddr) {
 
-    unsigned int pageNumber = virtAddr / 128;
-    unsigned int pageOffset = virtAddr % 128;
-    unsigned int frameNumber = machine->pageTable[pageNumber].physicalPage;
-    unsigned int physicalAddr = frameNumber*128 + pageOffset;
-    char* filename = &(machine->mainMemory[physicalAddr]);
+// perform MMU translation to access physical memory
+char* readString(int virtualAddr) {
+    int i = 0;
+    char* str = new char[256];
+    unsigned int physicalAddr = currentThread->space->Translate(virtualAddr);
 
-    return filename;
+    // Need to get one byte at a time since the string may straddle multiple non-contiguous pages
+    bcopy(&(machine->mainMemory[physicalAddr]),&str[i],1);
+    while(str[i] != '\0' && i != 256-1)
+    {
+        virtualAddr++;
+        i++;
+        physicalAddr = currentThread->space->Translate(virtualAddr);
+        bcopy(&(machine->mainMemory[physicalAddr]),&str[i],1);
+    }
+    if(i != 256-1 && str[i] != '\0')
+    {
+        str[i] = '\0';
+    }
+
+    return str;
 }
 
 void
@@ -266,7 +279,7 @@ ExceptionHandler(ExceptionType which)
         incrementPC();
     } else if ((which == SyscallException) && (type == SC_Exec)) {
         int virtAddr = machine->ReadRegister(4);
-        char* fileName = translate(virtAddr);
+        char* fileName = readString(virtAddr);
         int ret = doExec(fileName);
         machine->WriteRegister(2, ret);
         incrementPC();
