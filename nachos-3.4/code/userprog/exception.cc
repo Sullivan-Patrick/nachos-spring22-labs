@@ -378,6 +378,9 @@ ExceptionHandler(ExceptionType which)
         machine->WriteRegister(2, ret);
         incrementPC();
     } else if ((which == SyscallException) && (type == SC_Yield)) {
+        if(currentThread->space == NULL) {
+            printf("currentThread->space is null");
+        }
         printf("System Call: [%d] invoked [yield]\n", currentThread->space->pcb->pid);
         doYield();
         incrementPC();
