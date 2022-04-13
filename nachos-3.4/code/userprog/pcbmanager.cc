@@ -52,7 +52,7 @@ int PCBManager::DeallocatePCB(PCB* pcb) {
         if(pcbs[i] == NULL) {
             printf("pcb number %d from pcbs list is null\n", i);
         } else {
-            printf("pcb from pcb array, pcb id %d\n", pcbs[i]->pid);
+            printf("pcb at index %d, with id %d\n", i, pcbs[i]->pid);
         }
     }
     for(int i = 0; i < sizeof(pcbs); i++) {
