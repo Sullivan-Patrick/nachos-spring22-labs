@@ -331,6 +331,8 @@ int doKill(int pid) {
     joinPCB->thread->setStatus(BLOCKED);
     (void) interrupt->SetLevel(IntOn);
 
+    printf("Process [%d] killed process [%d]\n", currentThread->space->pcb->pid, joinPCB->pid);
+
     // 4. return 0 for success!
     return 0;
 }
