@@ -55,10 +55,12 @@ int PCBManager::DeallocatePCB(PCB* pcb) {
         }
     }
     for(int i = 0; i < sizeof(pcbs); i++) {
-        if(pcbs[i]->pid == pcb->pid) {
-            printf("Found the pcb to deallocate, pcb id %d\n", pcb->pid);
-            found = true;
-            break;
+        if(pcbs[i] != NULL) {
+            if(pcbs[i]->pid == pcb->pid) {
+                printf("Found the pcb to deallocate, pcb id %d\n", pcb->pid);
+                found = true;
+                break;
+            }
         }
     }
     if (!found) {
