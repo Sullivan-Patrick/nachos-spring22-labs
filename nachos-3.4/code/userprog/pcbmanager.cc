@@ -75,7 +75,7 @@ int PCBManager::DeallocatePCB(PCB* pcb) {
     // Release pcbManagerLock
     pcbManagerLock->Release();
 
-    //delete pcbs[pcb->pid];
+    delete pcbs[pcb->pid];
     for(int i = 0; i < sizeof(pcbs); i++) {
         if(pcbs[i] == NULL) {
             printf("pcb number %d from pcbs list is null\n", i);
