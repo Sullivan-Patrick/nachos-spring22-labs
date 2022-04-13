@@ -380,6 +380,8 @@ ExceptionHandler(ExceptionType which)
     } else if ((which == SyscallException) && (type == SC_Yield)) {
         if(currentThread->space == NULL) {
             printf("currentThread->space is null");
+        } else {
+            printf("currentThread->space is not null");
         }
         printf("System Call: [%d] invoked [yield]\n", currentThread->space->pcb->pid);
         doYield();
