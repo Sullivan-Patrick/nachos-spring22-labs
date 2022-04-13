@@ -45,6 +45,8 @@ PCB* PCBManager::AllocatePCB() {
 
 int PCBManager::DeallocatePCB(PCB* pcb) {
 
+    printf("pid of the pcb to deallocate %d". pcb->pid);
+
     // Check is pcb is valid -- check pcbs for pcb->pid
     bool found = false;
     for(int i = 0; i < sizeof(pcbs); i++) {
