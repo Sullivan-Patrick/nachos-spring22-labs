@@ -78,7 +78,6 @@ AddrSpace::AddrSpace(OpenFile *executable)
         valid = false;
         return;
     }
-    printf("code size %d\n", noffH.code.size);
 
 // how big is address space?
     size = noffH.code.size + noffH.initData.size + noffH.uninitData.size
