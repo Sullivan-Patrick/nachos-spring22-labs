@@ -87,7 +87,7 @@ int PCBManager::DeallocatePCB(PCB* pcb) {
     //     }
     // }
 
-    pcbs[pcb->pid] = NULL;
+    pcbs[index] = NULL;
 
 }
 
