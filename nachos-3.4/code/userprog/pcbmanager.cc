@@ -47,6 +47,7 @@ int PCBManager::DeallocatePCB(PCB* pcb) {
 
     // Check is pcb is valid -- check pcbs for pcb->pid
     bool found = false;
+    int index = 0;
     for(int i = 0; i < sizeof(pcbs); i++) {
         if(pcbs[i] == NULL) {
             printf("pcb number %d from pcbs list is null\n", i);
@@ -57,7 +58,8 @@ int PCBManager::DeallocatePCB(PCB* pcb) {
     for(int i = 0; i < sizeof(pcbs); i++) {
         if(pcbs[i] != NULL) {
             if(pcbs[i]->pid == pcb->pid) {
-                printf("Found the pcb to deallocate, pcb id %d\n", pcb->pid);
+                printf("Found the pcb to deallocate at index %d, with id %d\n", i, pcb->pid);
+                index = i;
                 found = true;
                 break;
             }
@@ -76,14 +78,14 @@ int PCBManager::DeallocatePCB(PCB* pcb) {
     pcbManagerLock->Release();
 
     delete pcbs[pcb->pid];
-    for(int i = 0; i < sizeof(pcbs); i++) {
-        if(pcbs[i] == NULL) {
-            printf("pcb number %d from pcbs list is null\n", i);
-            break;
-        } else {
-            printf("pcb from pcb array, pcb id %d\n", pcbs[i]->pid);
-        }
-    }
+    // for(int i = 0; i < sizeof(pcbs); i++) {
+    //     if(pcbs[i] == NULL) {
+    //         printf("pcb number %d from pcbs list is null\n", i);
+    //         break;
+    //     } else {
+    //         printf("pcb from pcb array, pcb id %d\n", pcbs[i]->pid);
+    //     }
+    // }
 
     pcbs[pcb->pid] = NULL;
 
