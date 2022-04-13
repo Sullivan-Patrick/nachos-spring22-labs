@@ -299,47 +299,39 @@ void doYield() {
 }
 
 
-int doKill (int pid) {
+int doKill(int pid) {
 
-    // // 1. Check if the pid is valid and if not, return -1
-    // // PCB* joinPCB = pcbManager->GetPCB(pid);
-    // // if (pcb == NULL) return -1;
+    // 1. Check if the pid is valid and if not, return -1
     // PCB* joinPCB = pcbManager->GetPCB(pid);
-    // if (joinPCB == NULL) return -1;
+    // if (pcb == NULL) return -1;
+    PCB* joinPCB = pcbManager->GetPCB(pid);
+    if (joinPCB == NULL) return -1;
 
-    // // 2. IF pid is self, then just exit the process
-    // // if (pcb == currentThread->space->pcb) {
-    // //         doExit(0);
-    // //         return 0;
-    // // }
-    // if (joinPCB == currentThread->space->pcb) {
-    //     doExit(0);
-    //     return 0;
+    // 2. IF pid is self, then just exit the process
+    // if (pcb == currentThread->space->pcb) {
+    //         doExit(0);
+    //         return 0;
     // }
+    if (joinPCB == currentThread->space->pcb) {
+        doExit(0);
+        return 0;
+    }
 
-    // // 3. Valid kill, pid exists and not self, do cleanup similar to Exit
-    // // However, change references from currentThread to the target thread
-    // // pcb->thread is the target thread
-    // delete joinPCB->thread->space;
-    // (void) interrupt->SetLevel(IntOff);
-    // threadToBeDestroyed = joinPCB->thread;
+    // 3. Valid kill, pid exists and not self, do cleanup similar to Exit
+    // However, change references from currentThread to the target thread
+    // pcb->thread is the target thread
+    joinPCB->exitStatus = 0;
+    joinPCB->DeleteExitedChildrenSetParentNull();
+    if(joinPCB->parent == NULL) pcbManager->DeallocatePCB(joinPCB);
+    delete joinPCB->thread->space;
 
-    // Thread* oldThread = currentThread;
-    // currentThread = joinPCB->thread;
-    // currentThread->Finish();
+    // Finish and Sleep function direct code
+    (void) interrupt->SetLevel(IntOff);
+    threadToBeDestroyed = joinPCB->thread;
+    joinPCB->thread->setStatus(BLOCKED);
+    (void) interrupt->SetLevel(IntOn);
 
-
-    // // Manage PCB memory As a parent process
-    // PCB* pcb = joinPCB;
-
-    // // Delete exited children and set parent null for non-exited ones
-    // pcb->DeleteExitedChildrenSetParentNull();
-
-    // // Manage PCB memory As a child process
-    // if(pcb->parent == NULL) pcbManager->DeallocatePCB(pcb);
-
-    // currentThread = oldThread;
-    // // 4. return 0 for success!
+    // 4. return 0 for success!
     return 0;
 }
 
