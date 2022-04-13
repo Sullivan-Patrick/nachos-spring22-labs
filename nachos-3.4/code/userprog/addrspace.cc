@@ -66,7 +66,6 @@ AddrSpace::AddrSpace(OpenFile *executable)
 {
     NoffHeader noffH;
     unsigned int i, size;
-    valid = true;
 
     executable->ReadAt((char *)&noffH, sizeof(noffH), 0);
     if ((noffH.noffMagic != NOFFMAGIC) &&
@@ -118,45 +117,36 @@ AddrSpace::AddrSpace(OpenFile *executable)
         bzero(&(machine->mainMemory[physicalPageAddress]), 128);
     }
 
-    // then, copy in the code and data segments into memory
+     // then, copy in the code and data segments into memory
     if (noffH.code.size > 0) {
         //printf("Copying the code\n");
         DEBUG('a', "Initializing code segment, at 0x%x, size %d\n",
 			noffH.code.virtualAddr, noffH.code.size);
-        int codePages = noffH.code.size / 128;
-        int codeLeftoverPage = noffH.code.size % 128;
-        int k;
-        for (k = 0 ; k < codePages; k++ ) {
-            executable->ReadAt(&(machine->mainMemory[(pageTable[noffH.code.virtualAddr/128 + k].physicalPage)*128]),
-			    128, noffH.code.inFileAddr + k*128);
-        }
-        // copy over last page
-        if (codeLeftoverPage > 0)
-            executable->ReadAt(&(machine->mainMemory[(pageTable[noffH.code.virtualAddr/128 + k].physicalPage)*128]),
-			    codeLeftoverPage, noffH.code.inFileAddr + k*128);
+        int counter = 0;
+        while( counter < noffH.code.size) {
 
+            executable->ReadAt(&(machine->mainMemory[Translate(noffH.code.virtualAddr+counter)]),
+                1, noffH.code.inFileAddr+counter);
+            counter++;
+        }
     }
     if (noffH.initData.size > 0) {
         //printf("Copying the initialized data");
         DEBUG('a', "Initializing data segment, at 0x%x, size %d\n",
 			noffH.initData.virtualAddr, noffH.initData.size);
-
-        int initDataPages = noffH.initData.size / 128;
-        int initDataLeftoverPage = noffH.initData.size % 128;
-        int k;
-        for (k = 0 ; k < initDataPages; k++ ) {
-            executable->ReadAt(&(machine->mainMemory[(pageTable[noffH.initData.virtualAddr/128 + k].physicalPage)*128]),
-			    128, noffH.initData.inFileAddr + k*128);
+        int counter = 0;
+        while( counter < noffH.initData.size) {
+        	executable->ReadAt(&(machine->mainMemory[Translate(noffH.initData.virtualAddr+counter)]),
+				1, noffH.initData.inFileAddr+counter);
+            counter++;
         }
-        // copy over last page
-        if (initDataLeftoverPage > 0)
-            executable->ReadAt(&(machine->mainMemory[(pageTable[noffH.initData.virtualAddr/128 + k].physicalPage)*128]),
-			    initDataLeftoverPage, noffH.initData.inFileAddr + k*128);
 
     }
 
-    // Print the sizes of the code, (initialized) data and /// bss (uninitialized) data segments in bytes
     printf("Loaded Program: %d code | %d data | [%d] bss \n", noffH.code.size, noffH.initData.size, noffH.uninitData.size);
+    valid = true;
+
+
 }
 
 
@@ -284,4 +274,14 @@ void AddrSpace::RestoreState()
 {
     machine->pageTable = pageTable;
     machine->pageTableSize = numPages;
+}
+
+
+// perform MMU translation to access physical memory
+unsigned int AddrSpace::Translate(unsigned int virtualAddr) {
+        unsigned int pageNumber = virtualAddr/PageSize;
+        unsigned int pageOffset = virtualAddr%PageSize;
+        unsigned int frameNumber = pageTable[pageNumber].physicalPage;
+        int physicalAddr = frameNumber*PageSize + pageOffset;
+        return physicalAddr;
 }
