@@ -397,9 +397,6 @@ ExceptionHandler(ExceptionType which)
         int ret = doKill(machine->ReadRegister(4));
         machine->WriteRegister(2, ret);
         incrementPC();
-    } else if ((which == SyscallException) && (type == SC_Yield)) {
-        doYield();
-        incrementPC();
     } else {
         printf("Unexpected user mode exception %d %d\n", which, type);
         ASSERT(FALSE);
