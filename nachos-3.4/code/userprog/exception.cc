@@ -329,6 +329,8 @@ int doKill(int pid) {
     (void) interrupt->SetLevel(IntOff);
     threadToBeDestroyed = joinPCB->thread;
     joinPCB->thread->setStatus(BLOCKED);
+    List* readyList = scheduler->getReadyList();
+    readyList->RemoveItem(joinPCB->thread);
     (void) interrupt->SetLevel(IntOn);
 
     printf("Process [%d] killed process [%d]\n", currentThread->space->pcb->pid, joinPCB->pid);

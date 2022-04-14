@@ -15,11 +15,10 @@ class PCBManager {
         PCB* AllocatePCB();
         int DeallocatePCB(PCB* pcb);
         PCB* GetPCB(int pid);
-        PCB** pcbs;
 
     private:
         BitMap* bitmap;
-        // PCB** pcbs;
+        PCB** pcbs;
         // Need a lock here
         // Lock* pcbManagerLock;
 
