@@ -54,6 +54,7 @@ int PCBManager::DeallocatePCB(PCB* pcb) {
         if(pcbs[i] != NULL) {
             if(pcbs[i]->pid == pcb->pid) {
                 index = i;
+                printf("pcb with pid %d to deallocate was found at index %d\n", pcb->pid, i);
                 found = true;
                 break;
             }

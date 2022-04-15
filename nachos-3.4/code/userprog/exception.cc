@@ -68,10 +68,10 @@ void doExit(int status) {
 
     // Manage PCB memory As a child process
     if(pcb->parent == NULL) {
-        printf("pcb with pid %d, was deallocated", pcb->pid);
+        printf("pcb with pid %d, was deallocated\n", pcb->pid);
         pcbManager->DeallocatePCB(pcb);
     } else {
-        printf("pcb with pid %d, was not deallocated", pcb->pid);
+        printf("pcb with pid %d, was not deallocated\n", pcb->pid);
     }
     printf ("Process [%d] exits with [%d]\n", pid, status);
 
