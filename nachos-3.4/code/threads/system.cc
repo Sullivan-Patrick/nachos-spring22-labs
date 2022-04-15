@@ -31,7 +31,7 @@ SynchDisk   *synchDisk;
 #ifdef USER_PROGRAM	// requires either FILESYS or FILESYS_STUB
 #define MAX_PROCESSES 5
 Machine *machine;	// user program memory and registers
-MemoryManager*;
+MemoryManager* mm;
 Lock* mmLock;
 PCBManager* pcbManager;
 Lock* pcbManagerLock;
