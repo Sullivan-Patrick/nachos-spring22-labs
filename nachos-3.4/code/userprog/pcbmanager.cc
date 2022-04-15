@@ -29,6 +29,7 @@ PCB* PCBManager::AllocatePCB() {
     pcbManagerLock->Acquire();
 
     int pid = bitmap->Find();
+    printf("next pid for the fork call %d\n", pid);
 
     // Release pcbManagerLock
     pcbManagerLock->Release();
