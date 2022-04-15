@@ -31,10 +31,10 @@ SynchDisk   *synchDisk;
 #ifdef USER_PROGRAM	// requires either FILESYS or FILESYS_STUB
 #define MAX_PROCESSES 5
 Machine *machine;	// user program memory and registers
-MemoryManager* mm = new MemoryManager();
-Lock* mmLock = new Lock("mmLock");
-PCBManager* pcbManager = new PCBManager(NumPhysPages);
-Lock* pcbManagerLock = new Lock("pcbMLock");
+MemoryManager*;
+Lock* mmLock;
+PCBManager* pcbManager;
+Lock* pcbManagerLock;
 #endif
 
 #ifdef NETWORK
@@ -158,6 +158,7 @@ Initialize(int argc, char **argv)
     mm = new MemoryManager();
     mmLock = new Lock("mmLock");
     pcbManager = new PCBManager(MAX_PROCESSES);
+    pcbManagerLock = new Lock("pcbMLock");
 #endif
 
 #ifdef FILESYS
