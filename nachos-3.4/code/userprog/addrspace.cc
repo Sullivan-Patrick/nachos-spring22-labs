@@ -145,7 +145,7 @@ AddrSpace::AddrSpace(OpenFile *executable)
 
     }
 
-    printf("Loaded Program: %d code | %d data | [%d] bss \n", noffH.code.size, noffH.initData.size, noffH.uninitData.size);
+    printf("Loaded Program: [%d] code | [%d] data | [%d] bss \n", noffH.code.size, noffH.initData.size, noffH.uninitData.size);
     valid = true;
 
 

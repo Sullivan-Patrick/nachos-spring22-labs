@@ -68,10 +68,7 @@ void doExit(int status) {
 
     // Manage PCB memory As a child process
     if(pcb->parent == NULL) {
-        printf("pcb with pid %d, was deallocated\n", pcb->pid);
         pcbManager->DeallocatePCB(pcb);
-    } else {
-        printf("pcb with pid %d, was not deallocated\n", pcb->pid);
     }
     printf ("Process [%d] exits with [%d]\n", pid, status);
 
@@ -374,16 +371,16 @@ ExceptionHandler(ExceptionType which)
         // Implement Exit system call
         doExit(machine->ReadRegister(4));
     } else if ((which == SyscallException) && (type == SC_Fork)) {
-        printf("System Call: [%d] invoked [fork]\n", currentThread->space->pcb->pid);
+        printf("System Call: [%d] invoked Fork\n", currentThread->space->pcb->pid);
         int ret = doFork(machine->ReadRegister(4));
         machine->WriteRegister(2, ret);
         incrementPC();
     } else if ((which == SyscallException) && (type == SC_Yield)) {
-        printf("System Call: [%d] invoked [yield]\n", currentThread->space->pcb->pid);
+        printf("System Call: [%d] invoked Yield\n", currentThread->space->pcb->pid);
         doYield();
         incrementPC();
     } else if ((which == SyscallException) && (type == SC_Exec)) {
-        printf("System Call: [%d] invoked [exec]\n", currentThread->space->pcb->pid);
+        printf("System Call: [%d] invoked Exec\n", currentThread->space->pcb->pid);
         int virtAddr = machine->ReadRegister(4);
         char* fileName = readString(virtAddr);
         printf("Exec Program: [%d] loading [%s]\n", currentThread->space->pcb->pid, fileName);
@@ -391,7 +388,7 @@ ExceptionHandler(ExceptionType which)
         machine->WriteRegister(2, ret);
         incrementPC();
     } else if ((which == SyscallException) && (type == SC_Join)) {
-        printf("System Call: %d invoked [join]\n", currentThread->space->pcb->pid);
+        printf("System Call: %d invoked Join\n", currentThread->space->pcb->pid);
         int ret = doJoin(machine->ReadRegister(4));
         machine->WriteRegister(2, ret);
         incrementPC();
