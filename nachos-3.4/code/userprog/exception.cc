@@ -259,6 +259,7 @@ int doJoin(int pid) {
     if(pid < 0) {
         return -1;
     }
+    printf("pid of pcb to join %d\n", pid);
     PCB* joinPCB = pcbManager->GetPCB(pid);
     if (joinPCB == NULL) {
         return -1;
