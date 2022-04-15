@@ -94,6 +94,9 @@ AddrSpace::AddrSpace(OpenFile *executable)
 
     // Allocate a new PCB for the address space
     pcb = pcbManager->AllocatePCB();
+    if(pcb == NULL) {
+        printf("newly allocated pcb for exec is null\n");
+    }
     pcb->thread = currentThread;
 
     DEBUG('a', "Initializing address space, num pages %d, size %d\n",
