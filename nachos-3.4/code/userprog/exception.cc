@@ -67,7 +67,11 @@ void doExit(int status) {
     pcb->DeleteExitedChildrenSetParentNull();
 
     // Manage PCB memory As a child process
-    if(pcb->parent == NULL) pcbManager->DeallocatePCB(pcb);
+    if(pcb->parent == NULL) {
+        pcbManager->DeallocatePCB(pcb);
+    } else {
+        printf("pcb with pid %d, was not deallocated", pcb->pid);
+    }
     printf ("Process [%d] exits with [%d]\n", pid, status);
 
     delete currentThread->space;
