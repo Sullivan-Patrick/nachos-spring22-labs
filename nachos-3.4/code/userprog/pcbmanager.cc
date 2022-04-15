@@ -64,6 +64,7 @@ int PCBManager::DeallocatePCB(PCB* pcb) {
     // Acquire pcbManagerLock
     pcbManagerLock->Acquire();
 
+    printf("pcb that has exited with id %d\n", pcb->pid);
     bitmap->Clear(pcb->pid);
 
     // Release pcbManagerLock
