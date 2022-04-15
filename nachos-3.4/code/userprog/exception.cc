@@ -259,7 +259,7 @@ int doJoin(int pid) {
     if(pid < 0) {
         return -1;
     }
-    printf("pid of pcb to join %d\n", pid);
+
     PCB* joinPCB = pcbManager->GetPCB(pid);
     if (joinPCB == NULL) {
         return -1;
@@ -274,8 +274,6 @@ int doJoin(int pid) {
     // 3. Yield until joinPCB has not exited
     // while(!joinPCB->hasExited) currentThread->Yield();
     while(!joinPCB->HasExited()) currentThread->Yield();
-
-    printf("JoinPCB has exited \n");
 
     // 4. Store status and delete joinPCB
     // int status = joinPCB->exitStatus;
