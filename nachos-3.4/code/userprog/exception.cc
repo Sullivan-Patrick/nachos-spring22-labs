@@ -196,6 +196,7 @@ int doExec(char* filename) {
 
     // 2. Create new address space
     // space = new AddrSpace(executable);
+    pcbManager->DeallocatePCB(currentThread->space->pcb);
     delete currentThread->space;
     space = new AddrSpace(executable);
 
