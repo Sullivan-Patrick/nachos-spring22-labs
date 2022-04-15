@@ -54,7 +54,7 @@ int PCBManager::DeallocatePCB(PCB* pcb) {
     bool found = false;
     int index = 0;
     for(int i = 0; i < 5; i++) {
-        printf("pcb on pcbs array with pid %d\n", pcbs[i]->pid, i);
+        printf("pcb on pcbs array with pid %d\n", pcbs[i]->pid);
         if(pcbs[i] != NULL) {
             if(pcbs[i]->pid == pcb->pid) {
                 index = i;
@@ -62,6 +62,8 @@ int PCBManager::DeallocatePCB(PCB* pcb) {
                 found = true;
                 break;
             }
+        } else {
+            printf("pcb %d is null\n", pcbs[i]->pid);
         }
     }
     if (!found) {
