@@ -53,7 +53,7 @@ int PCBManager::DeallocatePCB(PCB* pcb) {
     printf("size of the psbs array %d\n", sizeof(pcbs));
     bool found = false;
     int index = 0;
-    for(int i = 0; i < sizeof(pcbs); i++) {
+    for(int i = 0; i < 5; i++) {
         if(pcbs[i] != NULL) {
             if(pcbs[i]->pid == pcb->pid) {
                 index = i;
