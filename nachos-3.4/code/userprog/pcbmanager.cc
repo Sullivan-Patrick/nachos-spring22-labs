@@ -54,14 +54,13 @@ int PCBManager::DeallocatePCB(PCB* pcb) {
     bool found = false;
     int index = 0;
     for(int i = 0; i < 5; i++) {
+        printf("pcb on pcbs array with pid %d\n", pcbs[i]->pid, i);
         if(pcbs[i] != NULL) {
             if(pcbs[i]->pid == pcb->pid) {
                 index = i;
                 printf("pcb with pid %d to deallocate was found at index %d\n", pcb->pid, i);
                 found = true;
                 break;
-            } else {
-                printf("pcb on pcbs array with pid %d\n", pcbs[i]->pid, i);
             }
         }
     }
