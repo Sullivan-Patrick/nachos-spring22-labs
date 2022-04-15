@@ -79,7 +79,7 @@ int PCBManager::DeallocatePCB(PCB* pcb) {
     // Release pcbManagerLock
     pcbManagerLock->Release();
 
-    if (pcb->pid < sizeof(pcbs)) {
+    if (pcb->pid < 5) {
         delete pcbs[index];
     }
 
