@@ -39,6 +39,8 @@ PCB* PCBManager::AllocatePCB() {
 
     pcbs[pid] = new PCB(pid);
 
+    printf("new allocated pcb %d\n", pcbs[pid]->pid);
+
     // return newly allocated PCB
     return pcbs[pid];
 
