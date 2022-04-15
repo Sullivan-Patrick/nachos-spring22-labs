@@ -243,7 +243,7 @@ int doExec(char* filename) {
     // machine->Run();			// jump to the user progam
     // ASSERT(FALSE); // Execution nevere reaches here
     int pcReg = machine->ReadRegister(PCReg);
-    printf("this is the pc reg %d \n", pcReg);
+
     machine->Run();
     ASSERT(FALSE);
 
@@ -377,9 +377,10 @@ ExceptionHandler(ExceptionType which)
         doYield();
         incrementPC();
     } else if ((which == SyscallException) && (type == SC_Exec)) {
+        printf("System Call: [%d] invoked [exec]\n", currentThread->space->pcb->pid);
         int virtAddr = machine->ReadRegister(4);
         char* fileName = readString(virtAddr);
-        printf("Exec Program: [%d] loading [%s]", currentThread->space->pcb->pid, fileName);
+        printf("Exec Program: [%d] loading [%s]\n", currentThread->space->pcb->pid, fileName);
         int ret = doExec(fileName);
         machine->WriteRegister(2, ret);
         incrementPC();
