@@ -50,24 +50,18 @@ PCB* PCBManager::AllocatePCB() {
 int PCBManager::DeallocatePCB(PCB* pcb) {
 
     // Check is pcb is valid -- check pcbs for pcb->pid
-    printf("size of the psbs array %d\n", sizeof(pcbs));
     bool found = false;
     int index = 0;
     for(int i = 0; i < 5; i++) {
-        printf("pcb on pcbs array with pid %d\n", pcbs[i]->pid);
         if(pcbs[i] != NULL) {
             if(pcbs[i]->pid == pcb->pid) {
                 index = i;
-                printf("pcb with pid %d to deallocate was found at index %d\n", pcb->pid, i);
                 found = true;
                 break;
             }
-        } else {
-            printf("pcb %d is null\n", pcbs[i]->pid);
         }
     }
     if (!found) {
-        printf("pcb with pid %d to deallocate was not found in pcbs\n", pcb->pid);
         return -1;
     }
 
