@@ -61,6 +61,7 @@ int PCBManager::DeallocatePCB(PCB* pcb) {
         }
     }
     if (!found) {
+        printf("pcb with pid %d to deallocate was not found in pcbs\n", pcb->pid);
         return -1;
     }
 
