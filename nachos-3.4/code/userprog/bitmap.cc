@@ -20,7 +20,6 @@
 BitMap::BitMap(int nitems)
 {
     numBits = nitems;
-    printf("number of bits on the bitmap %d\n", numBits);
     numWords = divRoundUp(numBits, BitsInWord);
     map = new unsigned int[numWords];
     for (int i = 0; i < numBits; i++)
