@@ -1,0 +1,27 @@
+Leandro Estevez
+PID: 6224748
+
+Osniel Oliva
+PID: 6075377
+
+Patrick Sullivan
+PID: 6282201
+
+
+Fork system call.
+We followed the skeleton provided by the professor. After this we encountered some bugs regarding pcbmanager.cc and memorymanager.cc. Using GDB and the backtrace feature we were ebale to find the faults. Through some analysis and reviewing the docs from the class content we were able to make it work. Fork first checks if there is anough mamory for a new process, if valid it then saves the current state that we have so we can come back later to it. We then create all the necssary parts for the new process which include an address space, a pcb and the union of them. After that we set up the initial registers and then we fork to create the new process. Once done we restore back the state we had saved to continue with the main process.
+
+Yield system call.
+This call was pretty simple. It uses the yield feature of the currentThread variable which is a varialble of the type Thread.
+
+Exec system call
+Exec opens a file. From this file we create a new addres space, we then check if this address space is valid. Once this is set, we delete the pcb from the process that called exec, we do the same for the adress space of it. After this we put on that free space the memory pertaining to the new process. We initialize the registers and set the machine to run on the new loaded process.
+
+Join system call
+Join checks that the provided pid is valid. After that we check if the pid references an pcb that is not NULL. Once thats set, we check if the pcb is not a chuld of the currentThread. We then wait for the pcb to be done with its work wo we then set its exit status and delete it.
+
+Kill system call
+We first check if the process we are trying to kill actually exists. After that we check if the process is indeed the current process that is running, if thats the case, we use the system call exit to do the work. If the process we want to kill is not our current one, we proced on a different way. We do the same cleaning that is done on exit but using mor granular code due to the assertions on the thread class which impides calling the Finish and Sleep functions from a thread that is not the current one. We set the correct exit status for the pcb, deallocate its exited children if any, delete the pcb from the pcbmanager, then delete the address space occupied by the process. After this we need to set the interrupt to off so we can put the current process to be deleted, block its status and remove it from the list of process ready to run. After all of this the interrupt is back up and our main process can continue.
+
+Exit system call
+Exits set the status of the pcb pertaining to the currenThread. We then delete its exited children if any. We check if the parent of the thread is NULL so we can deallocate its psb from pcbmanager. Once this is all done, we delete the space occupied by it and call finish which will put the thread to sleep and remove it from the readList.
