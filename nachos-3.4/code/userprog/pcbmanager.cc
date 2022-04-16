@@ -5,7 +5,6 @@
 PCBManager::PCBManager(int maxProcesses) {
 
     bitmap = new BitMap(maxProcesses);
-    printf("bitmap built with %d bits\n", maxProcesses);
     pcbs = new PCB*[maxProcesses];
 
     for(int i = 0; i < maxProcesses; i++) {
