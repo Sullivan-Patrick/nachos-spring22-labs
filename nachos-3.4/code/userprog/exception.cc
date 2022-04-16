@@ -99,7 +99,7 @@ void childFunction(int pid) {
     // PCReg == machine->ReadRegister(PCReg)
     int newPCReg = machine->ReadRegister(PCReg);
     // print message for child creation (pid,  PCReg, currentThread->space->GetNumPages())
-    printf("Process [%d] Fork: start at address [%d] with [%d] pages memory\n", pid, newPCReg, currentThread->space->GetNumPages());
+    printf("Process [%d] Fork: start at address [%#010x] with [%d] pages memory\n", pid, newPCReg, currentThread->space->GetNumPages());
 
     machine->Run();
 }
