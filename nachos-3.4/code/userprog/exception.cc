@@ -301,7 +301,10 @@ int doKill(int pid) {
     // PCB* joinPCB = pcbManager->GetPCB(pid);
     // if (pcb == NULL) return -1;
     PCB* joinPCB = pcbManager->GetPCB(pid);
-    if (joinPCB == NULL) return -1;
+    if (joinPCB == NULL) {
+        printf("Process [%d] cannot kill process [%d]: doesn't exist\n", currentThread->space->pcb->pid, joinPCB->pid);
+        return -1;
+    }
 
     // 2. IF pid is self, then just exit the process
     // if (pcb == currentThread->space->pcb) {
@@ -371,16 +374,16 @@ ExceptionHandler(ExceptionType which)
         // Implement Exit system call
         doExit(machine->ReadRegister(4));
     } else if ((which == SyscallException) && (type == SC_Fork)) {
-        printf("System Call: [%d] invoked Fork\n", currentThread->space->pcb->pid);
+        printf("System Call: [%d] invoked [Fork]\n", currentThread->space->pcb->pid);
         int ret = doFork(machine->ReadRegister(4));
         machine->WriteRegister(2, ret);
         incrementPC();
     } else if ((which == SyscallException) && (type == SC_Yield)) {
-        printf("System Call: [%d] invoked Yield\n", currentThread->space->pcb->pid);
+        printf("System Call: [%d] invoked [Yield]\n", currentThread->space->pcb->pid);
         doYield();
         incrementPC();
     } else if ((which == SyscallException) && (type == SC_Exec)) {
-        printf("System Call: [%d] invoked Exec\n", currentThread->space->pcb->pid);
+        printf("System Call: [%d] invoked [Exec]\n", currentThread->space->pcb->pid);
         int virtAddr = machine->ReadRegister(4);
         char* fileName = readString(virtAddr);
         printf("Exec Program: [%d] loading [%s]\n", currentThread->space->pcb->pid, fileName);
@@ -388,7 +391,7 @@ ExceptionHandler(ExceptionType which)
         machine->WriteRegister(2, ret);
         incrementPC();
     } else if ((which == SyscallException) && (type == SC_Join)) {
-        printf("System Call: %d invoked Join\n", currentThread->space->pcb->pid);
+        printf("System Call: [%d] invoked [Join]\n", currentThread->space->pcb->pid);
         int ret = doJoin(machine->ReadRegister(4));
         machine->WriteRegister(2, ret);
         incrementPC();
